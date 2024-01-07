@@ -1,0 +1,60 @@
+﻿﻿@using CrudEmployee.ViewModel
+@model List<CrudEmployee.ViewModel.EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["ResultCorrect"] != null)
+{
+    <h1 class="alert-success">@TempData["ResultCorrect"]</h1>
+}
+
+<div class="container shadow p-5">
+
+    <h1 class="text-center mb-3">Employees</h1>
+
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>Action</th>
+            
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Phone
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.Salary
+                    </td>
+                    <td>
+                        <div role="group" class="w-60 btn-group">
+                            <a asp-controller="Employee" asp-action="Read" asp-route-id="@item.Id">View</a>&nbsp;
+                            <a asp-controller="Employee" asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;
+                            <a asp-controller="Employee" asp-action="ConfirmDelete" asp-route-id="@item.Id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <div class="col mb-3 align-content-center">
+            <a asp-controller="Employee" asp-action="Create">Add Employee</a>
+        </div>
+    </table>
+</div>
