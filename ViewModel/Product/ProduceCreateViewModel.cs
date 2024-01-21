@@ -33,6 +33,7 @@ namespace Thrift_Us.ViewModel.Product
         public IEnumerable<SelectListItem> Categories { get; set; }
         public int CategoryId { get; set; }
 
+
       
         public DateTime PostedOn { get; set; }
 

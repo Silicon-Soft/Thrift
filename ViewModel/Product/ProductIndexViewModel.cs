@@ -15,6 +15,7 @@ namespace Thrift_Us.ViewModel.Product
 
         public string Condition { get; set; }
         public int CategoryId { get; set; }
+        public Thrift_Us.Models.Category Category { get; set; }
         public DateTime PostedOn { get; set; }
     }
 }

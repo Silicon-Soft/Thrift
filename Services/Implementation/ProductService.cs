@@ -33,6 +33,7 @@ namespace Thrift_Us.Services
                     ProductName = x.ProductName,
                     Description = x.Description,
                     CategoryId = x.CategoryId,
+                    Category = x.Category,
                     Price = x.Price,
                     Size = x.Size,
                     Condition = x.Condition,
@@ -46,7 +47,7 @@ namespace Thrift_Us.Services
             var data = _context.Products.Include(x => x.Category).FirstOrDefault(x => x.ProductId == productId);
             if (data == null)
             {
-                return null; 
+                return null;
             }
 
             return new ProductEditViewModel
@@ -96,7 +97,7 @@ namespace Thrift_Us.Services
             }
             catch (Exception ex)
             {
-                
+
                 return false;
             }
         }
@@ -108,7 +109,7 @@ namespace Thrift_Us.Services
                 var data = _context.Products.Include(x => x.Category).FirstOrDefault(x => x.ProductId == viewModel.ProductId);
                 if (data == null)
                 {
-                 
+
                     return false;
                 }
 
@@ -145,7 +146,7 @@ namespace Thrift_Us.Services
             }
             catch (Exception ex)
             {
-               
+
                 return false;
             }
         }
@@ -164,15 +165,15 @@ namespace Thrift_Us.Services
                     Condition = p.Condition,
                     ImageUrl = p.ImageUrl,
                     PostedOn = p.PostedOn,
-                    
+
                 })
                 .FirstOrDefault();
 
             return productDetails;
         }
-   
 
-public bool DeleteProduct(int productId)
+
+        public bool DeleteProduct(int productId)
         {
             try
             {
@@ -194,7 +195,7 @@ public bool DeleteProduct(int productId)
             }
             catch (Exception ex)
             {
-              
+
                 return false;
             }
         }

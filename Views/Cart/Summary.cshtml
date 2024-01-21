@@ -1,0 +1,213 @@
+﻿@model Thrift_Us.ViewModel.CartOrderViewModel
+@{
+    ViewData["Title"] = "Payment Summary";
+}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<form method="post" asp-action="SaveOrder" asp-controller="Order" id="orderform">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4  shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Shipping Details</h5>
+                </div>
+                <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-outline">
+                                <label class="form-label" for="form7Example1">Name</label>
+                                    <input id="nameTxt" type="text" asp-for="@Model.OrderHeader.Name" class="control-level" />
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-outline">
+                                <label class="form-label" for="form7Example1">Phone</label>
+                                    <input id="phoneTxt" type="phone" asp-for="@Model.OrderHeader.Phone" class="control-level" />
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-outline">
+                                <label class="form-label" for="form7Example1">Address</label>
+                                    <input id="addressTxt" type="text" asp-for="@Model.OrderHeader.Address" class="control-level" />
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label" for="form7Example1">City</label>
+                                <input id="addressTxt" type="text" asp-for="@Model.OrderHeader.City" class="control-level" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label" for="form7Example1">State</label>
+                                <input id="addressTxt" type="text" asp-for="@Model.OrderHeader.State" class="control-level" />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label" for="form7Example1">PostalCode</label>
+                                <input id="addressTxt" type="text" asp-for="@Model.OrderHeader.PostalCode" class="control-level" />
+
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-outline">
+                                <label class="form-label" for="form7Example1">Pick Date</label>
+                                    <input id="dateTxt" type="date" asp-for="@Model.OrderHeader.DateofPick " class="control-level" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-outline">
+                                <label class="form-label" for="form7Example1">Pick Time</label>
+                                    <input id="timeTxt" type="text" asp-for="@Model.OrderHeader.TimeofPick " class="control-level" />
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label class="form-label" for="form10Example1">Order Date</label>
+                                <input id="dateTxt" type="date" asp-for="@Model.OrderHeader.OrderDate " class="control-level" />
+
+                            </div>
+                        </div>
+                        </div>
+              
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Summary</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @for (int i = 0; i < Model.ListOfCart.Count; i++)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@Model.ListOfCart[i].Product.ProductName</span>
+                                <span>QTY: @Model.ListOfCart[i].Count</span>
+                                <span>@Model.ListOfCart[i].TotalPrice</span>
+                               
+
+                              
+                                <input type="hidden" asp-for="@Model.ListOfCart[i].Product.ProductName" />
+                                <input type="hidden" asp-for="@Model.ListOfCart[i].Count" />
+                                <input type="hidden" asp-for="@Model.ListOfCart[i].Product.Price" />
+                                
+                                <input type="hidden" asp-for="@Model.ListOfCart[i].Product.Price" />
+                                <input type="hidden" asp-for="@Model.OrderHeader.OrderTotal" />
+
+
+                            </li>
+                        }
+
+                
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12 mb-2">
+                                        <p class="text-end fw-bold">Total Amount: <span id="orderTotal"></span></p>
+                                        
+                                    </div>
+                              
+
+                                    <div class="col-md-8">
+                                        <button onclick="return InputValidate()" asp-action="SaveOrder" asp-controller="Order"
+                                        id="Pay-with-delivery" class="btn w-100"><img src="~/Image/cash.png" alt="Khalti" style="max-height: 50px; margin-right: 10px;"></button>
+                                    </div>
+                                   
+
+                                </div>
+                            </div>
+                        </li>
+
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+
+
+@*<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('Pay-with-delivery').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        var orderHeaderData = {
+            Name: document.getElementById("nameTxt").value,
+            Phone: document.getElementById("phoneTxt").value,
+            Address: document.getElementById("addressTxt").value,
+            DateofPick: document.getElementById("dateTxt").value,
+            TimeofPick: document.getElementById("timeTxt").value,
+        };
+
+   
+         var cartItems = @Html.Raw(Json.Serialize(Model.ListOfCart));
+
+
+        var cartOrderViewModel = {
+            OrderHeader: orderHeaderData,
+            ListOfCart: cartItems
+        };
+
+        fetch('@Url.Action("SaveOrder", "Order")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+              
+            },
+            body: JSON.stringify(cartOrderViewModel)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert('Order saved successfully!');
+                window.location.href = '@Url.Action("Index", "Order")';
+            } else {
+                alert('An error occurred: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred: ' + error.message);
+        });
+    });
+});
+    </script>*@

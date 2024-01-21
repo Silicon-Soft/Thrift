@@ -7,6 +7,9 @@ using AutoMapper;
 using Thrift_Us.Services.Interface;
 using Thrift_Us.Models;
 using Thrift_Us.Services;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using System.Configuration;
+
 
 namespace Thrift_Us
 {
@@ -23,15 +26,25 @@ namespace Thrift_Us
 
             builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ThriftDbContext>();
+         
+      
             _=builder.Services.AddScoped<IThriftService, ThriftService>();
-            _=builder.Services.AddScoped<IProductService, ProductService>();
+            _=builder.Services.AddScoped<IProductService, Thrift_Us.Services.ProductService>();
+            _=builder.Services.AddHttpClient();
+            _=builder.Services.AddScoped<ICartService, CartService>();
+          
 
 
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             
             builder.Services.AddAutoMapper(typeof(MapperProfile));
 
-
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
 
             var app = builder.Build();
@@ -53,8 +66,8 @@ namespace Thrift_Us
             app.UseAuthorization();
             app.MapRazorPages();
             app.UseStaticFiles();
+            app.UseSession();
 
-            
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,0 +1,37 @@
+﻿@using Thrift_Us.Models
+@model List<ApplicationUser>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h2>User Management</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>User ID</th>*@
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+           @*  <th>Role</th>*@
+        
+
+        </tr> 
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+               @* <td>@item.Id</td>*@
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td>@item.Address</td>
+              @*  <td>@item.Roles</td>*@
+
+            </tr>
+        }
+    </tbody>
+</table>

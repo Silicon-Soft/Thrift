@@ -23,6 +23,7 @@ namespace Thrift_Us.ViewModel.Product
         public string Condition { get; set; }
         public IEnumerable<CategoryCreateViewModel> Categories { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
 
         public DateTime PostedOn { get; set; }
 
