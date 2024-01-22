@@ -7,19 +7,30 @@ using Thrift_Us.ViewModel;
 
 namespace Thrift_Us.Data
 {
-    public class ThriftDbContext: IdentityDbContext<IdentityUser>
+    public class ThriftDbContext : IdentityDbContext<IdentityUser>
     {
         public ThriftDbContext(DbContextOptions options) : base(options)
         {
 
         }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<ApplicationUser>ApplicationUsers{ get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.ApplicationUser)
+                .WithMany()
+                .HasForeignKey(p => p.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+        }
     }
+
 }

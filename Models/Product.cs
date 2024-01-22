@@ -30,6 +30,9 @@ namespace Thrift_Us.Models
 
         [DataType(DataType.DateTime)]
         public DateTime PostedOn { get; set; }
+        public  string ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]
+        public virtual IdentityUser ApplicationUser { get; set; }
 
 
     }

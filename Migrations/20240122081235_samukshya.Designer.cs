@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Thrift_Us.Data;
 
@@ -11,9 +12,10 @@ using Thrift_Us.Data;
 namespace Thrift_Us.Migrations
 {
     [DbContext(typeof(ThriftDbContext))]
-    partial class ThriftDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240122081235_samukshya")]
+    partial class samukshya
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -390,10 +392,6 @@ namespace Thrift_Us.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -420,13 +418,14 @@ namespace Thrift_Us.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Size")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProductId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CategoryId");
 
@@ -554,19 +553,11 @@ namespace Thrift_Us.Migrations
 
             modelBuilder.Entity("Thrift_Us.Models.Product", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Thrift_Us.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Category");
                 });
