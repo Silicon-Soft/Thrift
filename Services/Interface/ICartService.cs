@@ -1,5 +1,5 @@
 ﻿using Thrift_Us.Models;
-using Thrift_Us.Status;
+
 using Thrift_Us.ViewModel;
 
 public interface ICartService

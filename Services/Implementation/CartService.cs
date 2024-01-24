@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Thrift_Us.Data;
 using Thrift_Us.Models;
-using Thrift_Us.Status;
+
 using Thrift_Us.ViewModel;
 
 public class CartService : ICartService

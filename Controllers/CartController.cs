@@ -7,7 +7,7 @@ using System;
 using System.Security.Claims;
 using Thrift_Us.Data;
 using Thrift_Us.Models;
-using Thrift_Us.Status;
+
 using Thrift_Us.ViewModel;
 using Thrift_Us.ViewModel.Category;
 

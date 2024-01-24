@@ -74,7 +74,7 @@ namespace Thrift_Us.Services
             return categories;
         }
 
-        public bool CreateProduct(ProduceCreateViewModel viewModel)
+        public bool CreateProduct(ProduceCreateViewModel viewModel, string userId)
         {
             try
             {
@@ -88,7 +88,8 @@ namespace Thrift_Us.Services
                     Size = viewModel.Size,
                     ImageUrl = stringFileName,
                     Condition = viewModel.Condition,
-                    PostedOn = DateTime.Now
+                    PostedOn = DateTime.Now,
+                    ApplicationUserId = userId
                 };
 
                 _context.Products.Add(product);

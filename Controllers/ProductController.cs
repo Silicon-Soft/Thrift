@@ -11,6 +11,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Thrift_Us.Services.Interface;
 using Thrift_Us.Models;
+using System.Security.Claims;
 
 namespace Thrift_Us.Controllers
 {
@@ -53,9 +54,14 @@ namespace Thrift_Us.Controllers
         [HttpPost]
         public IActionResult Create(ProduceCreateViewModel vm)
         {
+
             try
             {
-                _productService.CreateProduct(vm);
+               
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+             
+                _productService.CreateProduct(vm, userId);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -64,6 +70,7 @@ namespace Thrift_Us.Controllers
             }
             PopulateCategories();
             return View(vm);
+          
         }
 
         [HttpGet]

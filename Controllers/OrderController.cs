@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Thrift_Us.Models;
 using Thrift_Us.ViewModel;
 
 public class OrderController : Controller
@@ -34,27 +35,18 @@ public class OrderController : Controller
         {
             return RedirectToAction("Index");
         }
-        // Handle failure case
+       
         return View(cartOrderViewModel);
     }
 
-    public async Task<IActionResult> Inprocess(OrderDetailsViewModel orderDetailsViewModel)
+
+    [HttpPost]
+   
+    public async Task<IActionResult> UpdateOrderStatus(int orderId, PaymentStatus paymentStatus, OrderStatus orderStatus)
     {
-        var success = await _orderService.MarkOrderAsInProcessAsync(orderDetailsViewModel.OrderHeader.Id);
-        if (success)
-        {
-            return RedirectToAction("OrderDetails", new { id = orderDetailsViewModel.OrderHeader.Id });
-        }
+        bool success = await _orderService.UpdateOrderStatusAsync(orderId, paymentStatus, orderStatus);
         return RedirectToAction("Index");
     }
 
-    public async Task<IActionResult> Shipped(OrderDetailsViewModel orderDetailsViewModel)
-    {
-        var success = await _orderService.MarkOrderAsShippedAsync(orderDetailsViewModel.OrderHeader.Id);
-        if (success)
-        {
-            return RedirectToAction("OrderDetails", new { id = orderDetailsViewModel.OrderHeader.Id });
-        }
-        return RedirectToAction("Index");
-    }
+
 }

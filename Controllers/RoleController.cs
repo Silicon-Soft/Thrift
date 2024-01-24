@@ -26,7 +26,7 @@ namespace Thrift_Us.Controllers
         }
         [HttpPost]
 
-        public async Task<IActionResult> Create(IdentityRole roles) //seed roles
+        public async Task<IActionResult> Create(IdentityRole roles) 
 
         {
             try

@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using Thrift_Us.Data;
 using Thrift_Us.Models;
-using Thrift_Us.Status;
 using Thrift_Us.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,46 +26,50 @@ public class OrderService : IOrderService
 
     }
 
-    public async Task<IEnumerable<OrderHeader>> GetOrdersAsync(string userId, string status = null)
+    public async Task<IEnumerable<OrderHeader>> GetOrdersAsync(string userId, string status)
     {
-        var orders = _context.OrderHeaders.AsQueryable();
+        IQueryable<OrderHeader> orders = _context.OrderHeaders.AsQueryable();
+
         var user = await _usermanager.FindByIdAsync(userId);
         var roles = await _usermanager.GetRolesAsync(user);
+
         if (roles.Contains("Admin"))
         {
-            orders=_context.OrderHeaders.Where(x => x.ApplicationUserId == userId).AsQueryable();
+          
+            orders = _context.OrderHeaders.AsQueryable();
         }
-
-        /*if (roles.Contains("Seller"))
+        else if (roles.Contains("Seller"))
         {
-            orders = orders.Where(orderHeader => orderHeader.OrderDetails.Any(orderDetail => orderDetail.Product.ApplicationUserId == userId));
-
-        }*/
-        if (roles.Contains("Buyer"))
+            
+            orders = orders.Where(orderHeader =>
+                orderHeader.OrderDetails.Any(orderDetail =>
+                    orderDetail.Product.ApplicationUserId == userId));
+        }
+        else if (roles.Contains("Buyer"))
         {
+        
             orders = orders.Where(x => x.ApplicationUserId == userId);
         }
 
-
-        if (!string.IsNullOrEmpty(status))
+     /*  if (!string.IsNullOrEmpty(status))
         {
-            orders = status.ToLower() switch
+           
+
+            *//*orders = status.ToLower() switch
             {
                 "pending" => orders.Where(x => x.PaymentStatus == PaymentStatus.StatusPending),
                 "approved" => orders.Where(x => x.PaymentStatus == PaymentStatus.StatusApproved),
                 "underprocess" => orders.Where(x => x.OrderStatus == OrderStatus.StatusInProcess),
                 "shipped" => orders.Where(x => x.OrderStatus == OrderStatus.StatusShipped),
                 _ => orders
-            };
-        }
+            };*//*
+        }*/
 
-        return await orders.Include(o => o.ApplicationUser).ToListAsync();
+        return await orders.Include(x => x.ApplicationUser).ToListAsync();
     }
 
-    private void elseif(bool v)
-    {
-        throw new NotImplementedException();
-    }
+
+
 
     public async Task<OrderDetailsViewModel> GetOrderDetailsAsync(int orderId)
     {
@@ -111,8 +114,8 @@ public class OrderService : IOrderService
                 TimeofPick = cartorderviewmodel.OrderHeader.TimeofPick,
                 OrderDate=cartorderviewmodel.OrderHeader.OrderDate,
                 OrderTotal = orderTotal,
-                OrderStatus = "Pending",
-                PaymentStatus="Pending",
+                OrderStatus = cartorderviewmodel.OrderHeader.OrderStatus, 
+                PaymentStatus = cartorderviewmodel.OrderHeader.PaymentStatus,
                 TransId=GenerateTransactionId()
             };
 
@@ -161,33 +164,20 @@ public class OrderService : IOrderService
         return Guid.NewGuid().ToString();
     }
 
-    public async Task<bool> MarkOrderAsInProcessAsync(int orderId)
+    public async Task<bool> UpdateOrderStatusAsync(int orderId, PaymentStatus paymentStatus, OrderStatus orderStatus)
     {
-        var orderHeader = await _context.OrderHeaders.FindAsync(orderId);
-        if (orderHeader == null)
+        var order = await _context.OrderHeaders.FindAsync(orderId);
+        if (order != null)
         {
-            return false;
+            order.OrderStatus = orderStatus;
+            order.PaymentStatus = paymentStatus;
+            _context.Update(order);
+            await _context.SaveChangesAsync();
+            return true;
         }
-
-        orderHeader.OrderStatus = OrderStatus.StatusInProcess;
-        _context.OrderHeaders.Update(orderHeader);
-        await _context.SaveChangesAsync();
-
-        return true;
+        return false;
     }
 
-    public async Task<bool> MarkOrderAsShippedAsync(int orderId)
-    {
-        var orderHeader = await _context.OrderHeaders.FindAsync(orderId);
-        if (orderHeader == null)
-        {
-            return false;
-        }
 
-        orderHeader.OrderStatus = OrderStatus.StatusShipped;
-        _context.OrderHeaders.Update(orderHeader);
-        await _context.SaveChangesAsync();
 
-        return true;
-    }
 }

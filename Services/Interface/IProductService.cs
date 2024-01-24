@@ -9,7 +9,7 @@ namespace Thrift_Us.Services.Interface
         List<ProductIndexViewModel> GetAllProducts();
         ProductEditViewModel GetProductById(int productId);
         List<Category> GetCategories(); 
-        bool CreateProduct(ProduceCreateViewModel viewModel);
+        bool CreateProduct(ProduceCreateViewModel viewModel, string userId);
         bool UpdateProduct(ProduceCreateViewModel viewModel);
         ProductDetailsViewModel GetProductDetails(int productId);
         bool DeleteProduct(int productId);

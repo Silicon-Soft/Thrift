@@ -28,12 +28,12 @@ namespace Thrift_Us.Models
                 .CreateScope().ServiceProvider
                 .GetRequiredService<UserManager<IdentityUser>>();
 
-            string roleName = "Admin";
+            /*string roleName = "Admin";
 
             if (!await roleManager.RoleExistsAsync(roleName))
             {
                 await roleManager.CreateAsync(new IdentityRole(roleName));
-            }
+            }*/
             IdentityUser user = await userManager.FindByNameAsync(adminUser);
 
             if (user == null)
@@ -45,7 +45,7 @@ namespace Thrift_Us.Models
 
                 await userManager.CreateAsync(user, adminPassword);
 
-                await userManager.AddToRoleAsync(user, "Admin");
+               
             }
         }
     }
