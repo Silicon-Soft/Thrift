@@ -35,7 +35,9 @@ namespace Thrift_Us.Services
                     CategoryId = x.CategoryId,
                     Category = x.Category,
                     Price = x.Price,
+                    RentalPrice= x.RentalPrice,
                     Size = x.Size,
+                    Quantity=x.Quantity,
                     Condition = x.Condition,
                     ImageUrl = x.ImageUrl,
                     PostedOn = x.PostedOn
@@ -57,7 +59,9 @@ namespace Thrift_Us.Services
                 Description = data.Description,
                 CategoryId = data.CategoryId,
                 Price = data.Price,
+                RentalPrice= data.RentalPrice,
                 Size = data.Size,
+                Quantity=data.Quantity,
                 Condition = data.Condition,
                 ImageUrl = data.ImageUrl,
                 PostedOn = data.PostedOn
@@ -85,7 +89,9 @@ namespace Thrift_Us.Services
                     Description = viewModel.Description,
                     CategoryId = viewModel.CategoryId,
                     Price = viewModel.Price,
+                    RentalPrice= viewModel.RentalPrice,
                     Size = viewModel.Size,
+                    Quantity=viewModel.Quantity,
                     ImageUrl = stringFileName,
                     Condition = viewModel.Condition,
                     PostedOn = DateTime.Now,
@@ -132,7 +138,9 @@ namespace Thrift_Us.Services
                 data.Description = viewModel.Description;
                 data.CategoryId = viewModel.CategoryId;
                 data.Price = viewModel.Price;
+                data.RentalPrice= viewModel.RentalPrice;
                 data.Size = viewModel.Size;
+                data.Quantity=viewModel.Quantity;
                 data.Condition = viewModel.Condition;
                 data.PostedOn = DateTime.Now;
 
@@ -162,7 +170,9 @@ namespace Thrift_Us.Services
                     Description = p.Description,
                     CategoryId = p.CategoryId,
                     Price = p.Price,
+                    RentalPrice=p.RentalPrice,
                     Size = p.Size,
+                    Quantity=p.Quantity,
                     Condition = p.Condition,
                     ImageUrl = p.ImageUrl,
                     PostedOn = p.PostedOn,

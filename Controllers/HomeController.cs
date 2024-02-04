@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using Thrift_Us.Data;
 using Thrift_Us.Models;
 using Thrift_Us.Services.Interface;
 using Thrift_Us.ViewModel;
+using Thrift_Us.ViewModels;
 
 namespace Thrift_Us.Controllers
 {
@@ -25,12 +27,12 @@ namespace Thrift_Us.Controllers
 
         public IActionResult Index()
         {
-            var products = _productService.GetAllProducts(); 
+            var products = _productService.GetAllProducts().OrderByDescending(Product =>Product.ProductId); 
             return View(products);
         }
         public IActionResult Product()
         {
-            var products = _productService.GetAllProducts();
+            var products = _productService.GetAllProducts().OrderByDescending(Product => Product.ProductId);
             return View(products);
         }
         [AllowAnonymous]
@@ -110,9 +112,95 @@ namespace Thrift_Us.Controllers
                 _logger.LogError(ex, "Error in AddToCart");
                 return RedirectToAction("Error", "Home");
             }
+
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> Rent(int Id)
+        {
+            var product = await _context.Products.FindAsync(Id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var rental = new List<RentalViewModel>()
+            {
+                new RentalViewModel()
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    RentalPrice = product.RentalPrice,
+                    Size = product.Size,
+                    ImageUrl = product.ImageUrl,
+                    Condition = product.Condition,
+               
+                }
+            };
+
+            return View(rental);
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Buyer")]
+        public async Task<IActionResult> Rent(RentalViewModel model)
+        {
+           
+            
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+                if (userId == null)
+                {
+                    _logger.LogWarning("User ID is null in Rent");
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var product = await _context.Products
+                    .Include(x => x.Category)
+                    .FirstOrDefaultAsync(x => x.ProductId == model.ProductId);
+
+                if (product == null)
+                {
+                    _logger.LogWarning($"Product with ID {model.ProductId} not found.");
+                    return NotFound();
+                }
+            decimal totalPrice = product.RentalPrice * model.RentalDuration;
+
+            var rental = new Rental
+                {
+                    ProductId = model.ProductId,
+                    ApplicationUserId = userId,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    TotalPrice = totalPrice,
+                    RentalDuration = model.RentalDuration
+                };
+
+                _context.Rentals.Add(rental);
+                await _context.SaveChangesAsync();
+
+            
+              
+
+                var rentalCartItem = new RentalCart
+                {
+                    ApplicationUserId = userId,
+                    ProductId= model.ProductId,
+                    Count = model.Count
+                };
+
+                _context.RentalCarts.Add(rentalCartItem);
+                await _context.SaveChangesAsync();
+
+                var rentalCartCount = _context.RentalCarts.Count(c => c.ApplicationUserId == userId);
+                HttpContext.Session.SetInt32("SessionRental", rentalCartCount);
+            ViewBag.TotalPrice = totalPrice;
+            return RedirectToAction("Rent");
+            
+          
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

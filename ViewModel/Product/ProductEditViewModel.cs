@@ -13,9 +13,13 @@ namespace Thrift_Us.ViewModel.Product
         [Required]
         public string Description { get; set; }
         [Required]
-        public string Size { get; set; }
+        public Size Size { get; set; }
+        [Required]
+        public int Quantity { get; set; }
         [Required]
         public long Price { get; set; }
+    
+        public decimal RentalPrice { get; set; }
         public string ImageUrl { get; set; }
         [NotMapped]
         public IFormFile ImagePath { get; set; }

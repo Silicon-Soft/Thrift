@@ -1,15 +1,18 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Versioning;
 using System;
+using System.Data;
 using System.Security.Claims;
 using Thrift_Us.Data;
 using Thrift_Us.Models;
 
 using Thrift_Us.ViewModel;
 using Thrift_Us.ViewModel.Category;
+using Thrift_Us.ViewModels;
 
 namespace Thrift_Us.Controllers
 {
@@ -35,10 +38,11 @@ namespace Thrift_Us.Controllers
 
             return View(details);
         }
-
+     
         public async Task<IActionResult> Plus(int id)
         {
             await _cartService.IncreaseItemCountAsync(id);
+          
             return RedirectToAction("Index");
         }
 
@@ -52,6 +56,7 @@ namespace Thrift_Us.Controllers
             }
 
             await _cartService.DecreaseItemCountAsync(id, claim.Value);
+       
             return RedirectToAction("Index");
         }
 
@@ -87,8 +92,12 @@ namespace Thrift_Us.Controllers
 
        
     }
-
 }
+        
+    
+
+
+
 
     
 

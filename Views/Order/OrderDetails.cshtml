@@ -2,6 +2,23 @@
 @model Thrift_Us.ViewModel.OrderDetailsViewModel
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
+@{
+    if (User.IsInRole("Buyer"))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else if (User.IsInRole("Seller"))
+    {
+        Layout = "~/Views/Shared/_SellerLayout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
+}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <form method="post" action="@Url.Action("UpdateOrderStatus", "Order")">
     <input type="hidden" name="orderId" value="@Model.OrderHeader.Id" />

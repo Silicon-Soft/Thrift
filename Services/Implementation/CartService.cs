@@ -51,18 +51,30 @@ public class CartService : ICartService
 
     public async Task IncreaseItemCountAsync(int cartItemId)
     {
-        var cart = await _context.Carts.FirstOrDefaultAsync(x => x.Id == cartItemId);
+        var cart = await _context.Carts
+            .Include(c => c.Product) 
+            .FirstOrDefaultAsync(x => x.Id == cartItemId);
         if (cart != null)
         {
-            cart.Count += 1;
-            await _context.SaveChangesAsync();
-        }
+            if (cart.Count < cart.Product.Quantity) 
+            {
+                cart.Count += 1;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
 
+           
+            }
+        }
     }
 
     public async Task DecreaseItemCountAsync(int cartItemId, string userId)
     {
-        var cart = await _context.Carts.FirstOrDefaultAsync(x => x.Id == cartItemId);
+        var cart = await _context.Carts
+            .Include(c => c.Product)
+            .FirstOrDefaultAsync(x => x.Id == cartItemId);
+
         if (cart != null)
         {
             if (cart.Count == 1)
@@ -79,8 +91,8 @@ public class CartService : ICartService
                 await _context.SaveChangesAsync();
             }
         }
-
     }
+
 
     public async Task DeleteCartItemAsync(int cartItemId, string userId)
     {
@@ -97,7 +109,6 @@ public class CartService : ICartService
 
 
     }
-
     public async Task<CartOrderViewModel> GetCartSummaryAsync(string userId)
     {
         var details = new CartOrderViewModel
@@ -130,6 +141,7 @@ public class CartService : ICartService
 
         return details;
     }
+
    
 
 }

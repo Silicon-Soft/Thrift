@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Thrift_Us.ViewModel.CartOrderViewModel>
+@using Thrift_Us.ViewModel
+@using Thrift_Us.Models
+
+@{
+    ViewData["Title"] = "Summary";
+}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<form method="post" asp-action="SaveOrder" asp-controller="Order" id="orderform">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Shipping Details</h5>
+                </div>
+                <div class="card-body">
+                    @foreach (var cartorderViewModel in Model)
+                    {
+                        <div class="form-row mb-4">
+                            <div class="col">
+                                <label for="nameTxt">Name</label>
+                                <input id="nameTxt" type="text" asp-for="@cartorderViewModel.OrderHeader.Name" class="form-control" />
+                            </div>
+                            <div class="col">
+                                <label for="phoneTxt">Phone</label>
+                                <input id="phoneTxt" type="phone" asp-for="@cartorderViewModel.OrderHeader.Phone" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row mb-4">
+                            <div class="col">
+                                <label for="addressTxt">Address</label>
+                                <input id="addressTxt" type="text" asp-for="@cartorderViewModel.OrderHeader.Address" class="form-control" />
+                            </div>
+                            <div class="col">
+                                <label for="cityTxt">City</label>
+                                <input id="cityTxt" type="text" asp-for="@cartorderViewModel.OrderHeader.City" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row mb-4">
+                            <div class="col">
+                                <label for="stateTxt">State</label>
+                                <input id="stateTxt" type="text" asp-for="@cartorderViewModel.OrderHeader.State" class="form-control" />
+                            </div>
+                            <div class="col">
+                                <label for="postalCodeTxt">Postal Code</label>
+                                <input id="postalCodeTxt" type="text" asp-for="@cartorderViewModel.OrderHeader.PostalCode" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row mb-4">
+                            <div class="col">
+                                <label for="orderDateTxt">Order Date</label>
+                                <input id="orderDateTxt" type="date" asp-for="@cartorderViewModel.OrderHeader.OrderDate" class="form-control" />
+                            </div>
+                        </div>
+
+                        <ul class="list-group list-group-flush">
+                            @foreach (var rentalCart in cartorderViewModel.ListOfRentalCart)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@rentalCart.Product.ProductName</span>
+                                    <span>QTY: @rentalCart.Count</span>
+                                    <span>@rentalCart.TotalPrice</span>
+                                    <input type="hidden" asp-for="@rentalCart.Product.ProductName" />
+                                    <input type="hidden" asp-for="@rentalCart.Count" />
+                                    <input type="hidden" asp-for="@rentalCart.Product.RentalPrice" />
+                                    <input type="hidden" asp-for="@rentalCart.RentalDuration" />
+                                </li>
+                            }
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 mb-2">
+                                            <p class="text-end fw-bold">Total Amount: <span id="orderTotal">@cartorderViewModel.OrderHeader.OrderTotal</span></p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <button asp-action="SaveOrder" asp-controller="Order" id="Pay-with-delivery" class="btn w-100">
+                                                <img src="~/Image/cash.png" alt="Khalti" style="max-height: 50px; margin-right: 10px;">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+

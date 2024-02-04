@@ -19,7 +19,10 @@ namespace Thrift_Us.ViewModel.Product
         [Required]
         public long Price { get; set; }
         [Required]
-        public string Size { get; set; }
+        public decimal RentalPrice { get; set; }
+        [Required]
+        public Size Size { get; set; }
+        public int Quantity { get; set; }
         public string ImageUrl { get; set; }
         [NotMapped]
         [Required(ErrorMessage = "Please select an image.")]

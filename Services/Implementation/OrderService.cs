@@ -37,6 +37,7 @@ public class OrderService : IOrderService
         {
           
             orders = _context.OrderHeaders.AsQueryable();
+
         }
         else if (roles.Contains("Seller"))
         {
@@ -51,19 +52,7 @@ public class OrderService : IOrderService
             orders = orders.Where(x => x.ApplicationUserId == userId);
         }
 
-     /*  if (!string.IsNullOrEmpty(status))
-        {
-           
-
-            *//*orders = status.ToLower() switch
-            {
-                "pending" => orders.Where(x => x.PaymentStatus == PaymentStatus.StatusPending),
-                "approved" => orders.Where(x => x.PaymentStatus == PaymentStatus.StatusApproved),
-                "underprocess" => orders.Where(x => x.OrderStatus == OrderStatus.StatusInProcess),
-                "shipped" => orders.Where(x => x.OrderStatus == OrderStatus.StatusShipped),
-                _ => orders
-            };*//*
-        }*/
+     
 
         return await orders.Include(x => x.ApplicationUser).ToListAsync();
     }

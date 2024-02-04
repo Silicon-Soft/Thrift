@@ -16,7 +16,11 @@ namespace Thrift_Us.Models
         [Required]
         public long Price { get; set; }
         [Required]
-        public string Size { get; set; }
+        public decimal RentalPrice { get; set; }
+        [Required]
+        public Size Size { get; set; }
+        [Required]
+        public int Quantity { get; set; }
         [Required]
         [StringLength(50)]
         public string Condition { get; set; }
@@ -34,6 +38,15 @@ namespace Thrift_Us.Models
         [ForeignKey("ApplicationUserId")]
         public virtual IdentityUser ApplicationUser { get; set; }
 
+
+    }
+    public enum Size
+    {
+        Xl,
+        L,
+        M,
+        S,
+        XXl,
 
     }
 

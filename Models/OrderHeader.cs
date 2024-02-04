@@ -27,7 +27,9 @@ namespace Thrift_Us.Models
         public string State { get; set; }
         public string PostalCode { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
-      
+        public int RentalId { get; set; }
+        public Rental Rental { get; set; }
+
 
     }
     public enum PaymentStatus

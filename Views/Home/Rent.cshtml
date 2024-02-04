@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Thrift_Us.ViewModels.RentalViewModel>
+
+@{
+    ViewData["Title"] = "Rent";
+}
+
+<h1>Rent</h1>
+
+<form method="post"  class="mt-5">
+    @foreach (var item in Model)
+    {
+        <input type="hidden" name="ProductId" value="@item.ProductId" />
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <img src="@Url.Content("~/Content/Image/" + item.ImageUrl)" class="img-fluid" alt="Product Image" />
+            </div>
+            <div class="col-md-8">
+                <h2>@item.ProductName</h2>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <input id="description" class="form-control" value="@item.Description" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price:</label>
+                    <input id="price" class="form-control" value="@item.RentalPrice" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="size" class="form-label">Size:</label>
+                    <input id="size" class="form-control" value="@item.Size" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="condition" class="form-label">Condition:</label>
+                    <input id="condition" class="form-control" value="@item.Condition" readonly />
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="startDate" class="form-label">Start Date:</label>
+                        <input type="date" id="startDate" name="startDate" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="rentalDuration" class="form-label">Rental Duration:</label>
+                        <input type="number" id="rentalDuration" name="rentalDuration" class="form-control" required oninput="updateTotalPrice()" />
+                    </div>
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label for="endDate" class="form-label">End Date:</label>
+                        <input type="date" id="endDate" name="endDate" class="form-control" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-light">
+                                    <span class="text-info"> Total</span>
+                                    <strong id="totalPrice" class="text-info"></strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+               
+
+
+
+                <button type="submit" class="btn btn-primary mt-3">Rent Now</button>
+
+                <a asp-action="Index">Back</a>
+            </div>
+        </div>
+    }
+</form>
+<script>
+    function updateTotalPrice() {
+        var rentalPrice = parseFloat(document.getElementById("price").value);
+        var rentalDuration = parseFloat(document.getElementById("rentalDuration").value);
+
+        var totalPrice = rentalPrice * rentalDuration;
+
+        document.getElementById("totalPrice").innerText = totalPrice.toFixed(2); 
+    }
+</script>

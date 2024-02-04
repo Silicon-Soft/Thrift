@@ -1,4 +1,7 @@
 ﻿@model Thrift_Us.ViewModel.CartOrderViewModel
+@using Thrift_Us.ViewModel
+@using Thrift_Us.Models
+
 @{
     ViewData["Title"] = "Payment Summary";
 }
@@ -93,7 +96,7 @@
                                     </div>
                                     <div class="col-md-8">
                                         <button asp-action="SaveOrder" asp-controller="Order" id="Pay-with-delivery" class="btn w-100">
-                                            <img src="~/Image/cash.png" alt="Khalti" style="max-height: 50px; margin-right: 10px;">
+                                            <img src="~/Image/cash.png" alt="Khalti" style="max-height: 50px; margin-right: 10px;"> 
                                         </button>
                                     </div>
                                 </div>

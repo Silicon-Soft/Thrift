@@ -5,6 +5,14 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.success('@TempData["message"]');
+        });
+    </script>
+}
 <form asp-action="Details" method="post">
    
     <input type="hidden" name="ProductId" value="@Model.ProductId" />
@@ -43,7 +51,10 @@
                 <button type="submit" value="Add to Cart" class="btn btn-primary btn-block">
                     Add to Cart
                 </button>
-                <a asp-action="Index">Back to List</a>
+                <button type="submit" value="Rent" class="btn btn-primary btn-block">
+                    Rent
+                </button>
+                <a asp-action="Index">Back</a>
             </div>
     </div>
 </div>
@@ -64,5 +75,6 @@
         quantityElement.innerText = currentQuantity;
         hiddenQuantityInput.value = currentQuantity; 
     }
+    
 
 </script>
