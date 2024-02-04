@@ -46,7 +46,7 @@ namespace Thrift_Us
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-
+           
 
             var app = builder.Build();
 
@@ -72,6 +72,8 @@ namespace Thrift_Us
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+           
+
             IdentitySeedData.EnsurePopulated(app);
             app.Run();
             

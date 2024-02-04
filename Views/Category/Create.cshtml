@@ -1,10 +1,19 @@
 ﻿@using Thrift_Us.ViewModel.Category;
 @model CategoryCreateViewModel
 
-@{
-    ViewData["Title"] = "Create";
-}
 
+@{
+    if (User.IsInRole("Buyer"))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else 
+    {
+        Layout = "~/Views/Shared/_SellerLayout.cshtml";
+
+    }
+ 
+}
 <h1>Create</h1>
 <hr />
 <head>
@@ -38,8 +47,4 @@
     <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+

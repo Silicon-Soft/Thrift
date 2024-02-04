@@ -1,11 +1,25 @@
 ﻿@model IEnumerable<Thrift_Us.Models.OrderHeader>
 
+
 @{
-    ViewData["Title"] = "Order Index";
+    if (User.IsInRole("Buyer"))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else if(User.IsInRole("Seller"))
+    {
+        Layout = "~/Views/Shared/_SellerLayout.cshtml";
+        
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+       
+    }
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-<div class="container mt-3">
+
     <h2 class="mb-4">Orders</h2>
 
     <div class="table-responsive">
@@ -48,4 +62,3 @@
             </tbody>
         </table>
     </div>
-</div>

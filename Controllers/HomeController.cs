@@ -25,12 +25,12 @@ namespace Thrift_Us.Controllers
 
         public IActionResult Index()
         {
-            var products = _productService.GetAllProducts(); 
+            var products = _productService.GetAllProducts().OrderByDescending(Product =>Product.ProductId); 
             return View(products);
         }
         public IActionResult Product()
         {
-            var products = _productService.GetAllProducts();
+            var products = _productService.GetAllProducts().OrderByDescending(Product => Product.ProductId);
             return View(products);
         }
         [AllowAnonymous]

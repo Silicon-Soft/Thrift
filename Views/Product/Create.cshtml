@@ -1,7 +1,25 @@
 ﻿@model Thrift_Us.ViewModel.Product.ProduceCreateViewModel
 
 @{
-    Layout = null;
+   
+
+    if (User.IsInRole("Buyer"))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else if (User.IsInRole("Seller"))
+    {
+        Layout = "~/Views/Shared/_SellerLayout.cshtml";
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
+  
+
+
 }
 <!DOCTYPE html>
 
@@ -13,9 +31,8 @@
 </head>
 <body>
 
-    <div class="container">
-        <h4>ProduceCreateViewModel</h4>
-        <hr />
+ 
+
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <form  asp-action="Create" method="post" enctype="multipart/form-data">
@@ -42,6 +59,12 @@
                     <div class="form-group">
                         <label asp-for="Size" class="control-label">Size</label>
                         <input asp-for="Size" class="form-control" />
+                        <select name="Size" class="form-control">
+                            @foreach (var status in Enum.GetValues(typeof(Size)))
+                            {
+                                <option value="@((int)status)">@status.ToString()</option>
+                            }
+                        </select>
                         <span asp-validation-for="Size" class="text-danger"></span>
                     </div>
 
@@ -80,13 +103,9 @@
         </div>
 
        
-    </div>
+  
     
 
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-    }
+  
 </body>
 </html>
