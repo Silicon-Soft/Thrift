@@ -20,8 +20,10 @@
     }
 }
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<form method="post" action="@Url.Action("UpdateOrderStatus", "Order")">
-    <input type="hidden" name="orderId" value="@Model.OrderHeader.Id" />
+<form method="post" action="@Url.Action("UpdateOrderStatus", "RentalOrder")">
+    <input type="hidden" name="orderId" value="@Model.RentalOrderHeader.Id" />
+
+
 
     <div class="container-sm">
         <div class="row">
@@ -35,14 +37,14 @@
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.Name">Name</label>
-                            <input asp-for="OrderHeader.Name" class="form-control" />
-                            <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.Name">Name</label>
+                            <input asp-for="RentalOrderHeader.Name" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.Name" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.Name"> Name</label>
-                            <input readonly asp-for="OrderHeader.Name" class="from-control" />
+                            <label asp-for="RentalOrderHeader.Name"> Name</label>
+                            <input readonly asp-for="RentalOrderHeader.Name" class="from-control" />
                         }
 
                     </div>
@@ -50,119 +52,119 @@
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
                             <label asp-for="OrderHeader.Phone">Phone</label>
-                            <input asp-for="OrderHeader.Phone" class="form-control" />
-                            <span asp-validation-for="OrderHeader.Phone" class="text-danger"></span>
+                            <input asp-for="RentalOrderHeader.Phone" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.Phone" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.Phone">Phone</label>
-                            <input readonly asp-for="OrderHeader.Phone" class="from-control" />
+                            <label asp-for="RentalOrderHeader.Phone">Phone</label>
+                            <input readonly asp-for="RentalOrderHeader.Phone" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.Address">Address</label>
-                            <input asp-for="OrderHeader.Address" class="form-control" />
-                            <span asp-validation-for="OrderHeader.Address" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.Address">Address</label>
+                            <input asp-for="RentalOrderHeader.Address" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.Address" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.Address">Address</label>
-                            <input readonly asp-for="OrderHeader.Address" class="from-control" />
+                            <label asp-for="RentalOrderHeader.Address">Address</label>
+                            <input readonly asp-for="RentalOrderHeader.Address" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.Rental.StartDate">StartDate</label>
-                            <input asp-for="OrderHeader.Rental.StartDate" class="form-control" />
-                            <span asp-validation-for="OrderHeader.Rental.StartDate" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.StartDate">StartDate</label>
+                            <input asp-for="RentalOrderHeader.StartDate" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.StartDate" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.Rental.StartDate">StartDate</label>
-                            <input readonly asp-for="OrderHeader.Rental.StartDate" class="from-control" />
+                            <label asp-for="RentalOrderHeader.StartDate">StartDate</label>
+                            <input readonly asp-for="RentalOrderHeader.StartDate" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.Rental.EndDate">EndDate</label>
-                            <input asp-for="OrderHeader.Rental.EndDate" class="form-control" />
-                            <span asp-validation-for="OrderHeader.Rental.EndDate" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.EndDate">EndDate</label>
+                            <input asp-for="RentalOrderHeader.EndDate" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.EndDate" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.Rental.EndDate">EndDate</label>
-                            <input readonly asp-for="OrderHeader.Rental.EndDate" class="from-control" />
+                            <label asp-for="RentalOrderHeader.EndDate">EndDate</label>
+                            <input readonly asp-for="RentalOrderHeader.EndDate" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.Rental.RentalDuration">RentalDuration</label>
-                            <input asp-for="OrderHeader.Rental.RentalDuration" class="form-control" />
-                            <span asp-validation-for="OrderHeader.Rental.RentalDuration" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.RentalDuration">RentalDuration</label>
+                            <input asp-for="RentalOrderHeader.RentalDuration" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.RentalDuration" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.Rental.RentalDuration">RentalDuration</label>
-                            <input readonly asp-for="OrderHeader.Rental.RentalDuration" class="from-control" />
+                            <label asp-for="RentalOrderHeader.RentalDuration">RentalDuration</label>
+                            <input readonly asp-for="RentalOrderHeader.RentalDuration" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.City">City</label>
-                            <input asp-for="OrderHeader.City" class="form-control" />
-                            <span asp-validation-for="OrderHeader.City" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.City">City</label>
+                            <input asp-for="RentalOrderHeader.City" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.City" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.City">City</label>
-                            <input readonly asp-for="OrderHeader.City" class="from-control" />
+                            <label asp-for="RentalOrderHeader.City">City</label>
+                            <input readonly asp-for="RentalOrderHeader.City" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.State">State</label>
-                            <input asp-for="OrderHeader.State" class="form-control" />
-                            <span asp-validation-for="OrderHeader.State" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.State">State</label>
+                            <input asp-for="RentalOrderHeader.State" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.State" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.State">State</label>
-                            <input readonly asp-for="OrderHeader.State" class="from-control" />
+                            <label asp-for="RentalOrderHeader.State">State</label>
+                            <input readonly asp-for="RentalOrderHeader.State" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.PostalCode">PostalCode</label>
-                            <input asp-for="OrderHeader.PostalCode" class="form-control" />
-                            <span asp-validation-for="OrderHeader.PostalCode" class="text-danger"></span>
+                            <label asp-for="RentalOrderHeader.PostalCode">PostalCode</label>
+                            <input asp-for="RentalOrderHeader.PostalCode" class="form-control" />
+                            <span asp-validation-for="RentalOrderHeader.PostalCode" class="text-danger"></span>
                         }
                         @if (roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.PostalCode">PostalCode</label>
-                            <input readonly asp-for="OrderHeader.PostalCode" class="from-control" />
+                            <label asp-for="RentalOrderHeader.PostalCode">PostalCode</label>
+                            <input readonly asp-for="RentalOrderHeader.PostalCode" class="from-control" />
                         }
 
                     </div>
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller")|| roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.ApplicationUser.Email">Email</label>
-                            <input readonly asp-for="OrderHeader.ApplicationUser.Email" class="form-control" />
+                            <label asp-for="RentalOrderHeader.ApplicationUser.Email">Email</label>
+                            <input readonly asp-for="RentalOrderHeader.ApplicationUser.Email" class="form-control" />
 
                         }
 
@@ -170,8 +172,8 @@
                     <div class="row mb-3">
                         @if ((user.UserName=="admin0@gmail.com") || roles.Contains("Seller")|| roles.Contains("Buyer"))
                         {
-                            <label asp-for="OrderHeader.OrderDate">OrderDate</label>
-                            <input readonly asp-for="OrderHeader.OrderDate" class="form-control" />
+                            <label asp-for="RentalOrderHeader.OrderDate">OrderDate</label>
+                            <input readonly asp-for="RentalOrderHeader.OrderDate" class="form-control" />
 
                         }
 
@@ -179,9 +181,9 @@
                     <div class="row md-3">
                         @if ((user.UserName == "admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.PaymentStatus">PaymentStatus</label>
+                            <label asp-for="RentalOrderHeader.PaymentStatus">PaymentStatus</label>
                             <select name="paymentStatus" class="form-control">
-                                @foreach (var status in Enum.GetValues(typeof(PaymentStatus)))
+                                @foreach (var status in Enum.GetValues(typeof(Payment_Status)))
                                 {
                                     <option value="@((int)status)">@status.ToString()</option>
                                 }
@@ -191,9 +193,9 @@
                     <div class="row md-3">
                         @if ((user.UserName == "admin0@gmail.com") || roles.Contains("Seller"))
                         {
-                            <label asp-for="OrderHeader.OrderStatus">OrderStatus</label>
+                            <label asp-for="RentalOrderHeader.OrderStatus">OrderStatus</label>
                             <select name="orderStatus" class="form-control">
-                                @foreach (var status in Enum.GetValues(typeof(OrderStatus)))
+                                @foreach (var status in Enum.GetValues(typeof(Order_Status)))
                                 {
                                     <option value="@((int)status)">@status.ToString()</option>
                                 }
@@ -210,12 +212,12 @@
                     @if (roles.Contains("Buyer"))
                     {
                         <div class="row mb-3">
-                            <label asp-for="OrderHeader.PaymentStatus">PaymentStatus</label>
-                            <input readonly asp-for="OrderHeader.PaymentStatus" class="form-control" />
+                            <label asp-for="RentalOrderHeader.PaymentStatus">PaymentStatus</label>
+                            <input readonly asp-for="RentalOrderHeader.PaymentStatus" class="form-control" />
                         </div>
                         <div class="row mb-3">
-                            <label asp-for="OrderHeader.OrderStatus">OrderStatus</label>
-                            <input readonly asp-for="OrderHeader.OrderStatus" class="form-control" />
+                            <label asp-for="RentalOrderHeader.OrderStatus">OrderStatus</label>
+                            <input readonly asp-for="RentalOrderHeader.OrderStatus" class="form-control" />
                         </div>
                     }
 
@@ -226,11 +228,11 @@
             <div class="col-md-4">
                 <div class="card mb-4">
                     <div class="card-header bg-success text-white">
-                        <h5 class="mb-0">Summary-@Model.OrderHeader.OrderStatus</h5>
+                        <h5 class="mb-0">Summary-@Model.RentalOrderHeader.OrderStatus</h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            @foreach (var item in Model.OrderDetails)
+                            @foreach (var item in Model.RentalOrderDetails)
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-centre">
                                     <span>@item.Product.ProductName</span>
@@ -241,7 +243,7 @@
                             }
                             <li class="list-group-item d-flex justify-content-between align-content-center">
                                 <div>
-                                    <strong>Total amount &nbsp;<span class="text-end">@Model.OrderHeader.OrderTotal</span></strong>
+                                    <strong>Total amount &nbsp;<span class="text-end">@Model.RentalOrderHeader.OrderTotal</span></strong>
                                 </div>
 
                             </li>

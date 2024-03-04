@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thrift_Us.Models
 {
@@ -13,8 +14,10 @@ namespace Thrift_Us.Models
         public int RentalDuration { get; set; }
 
         public int Count { get; set; }
-   
-        public decimal TotalPrice { get; set; }
+
       
+        public decimal TotalPrice { get; set; }
+
+       
     }
 }

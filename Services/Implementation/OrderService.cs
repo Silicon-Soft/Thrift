@@ -89,7 +89,7 @@ public class OrderService : IOrderService
         using var transaction = _context.Database.BeginTransaction();
         try
         {
-            double orderTotal = cartorderviewmodel.ListOfCart.Sum(item => item.Count * item.Product.Price);
+            decimal orderTotal = cartorderviewmodel.ListOfCart.Sum(item => item.Count * item.Product.Price);
             var orderHeader = new OrderHeader
             {
                 ApplicationUserId = userId,
@@ -168,5 +168,28 @@ public class OrderService : IOrderService
     }
 
 
+    public async Task<bool> DeleteOrderAsync(int orderId)
+    {
+        try
+        {
 
+            var order = await _context.OrderHeaders.FindAsync(orderId);
+
+            if (order == null)
+                return false;
+
+
+            _context.OrderHeaders.Remove(order);
+
+            await _context.SaveChangesAsync();
+
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting order: {ex.Message}");
+            return false;
+        }
+    }
 }

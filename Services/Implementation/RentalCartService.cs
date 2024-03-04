@@ -21,7 +21,7 @@ public class RentalCartService : IRentalCartService
     {
         var details = new CartOrderViewModel
         {
-            OrderHeader = new OrderHeader(),
+            RentalOrderHeader = new RentalOrderHeader(),
             Rental = new Rental() 
         };
 
@@ -36,7 +36,7 @@ public class RentalCartService : IRentalCartService
             {
                 if (cart.Product != null)
                 {
-                    details.OrderHeader.OrderTotal +=(double)(cart.TotalPrice * cart.Count);
+                    details.RentalOrderHeader.OrderTotal += (cart.Product.RentalPrice * cart.RentalDuration * cart.Count);
                 }
                 else
                 {
@@ -110,13 +110,13 @@ public class RentalCartService : IRentalCartService
 
 
     }
-    public async Task<List<CartOrderViewModel>> GetCartSummaryListAsync(string userId)
+    public async Task<CartOrderViewModel> GetCartSummaryListAsync(string userId)
     {
-        var detailsList = new List<CartOrderViewModel>(); 
+        
 
         var details = new CartOrderViewModel
         {
-            OrderHeader = new OrderHeader(),
+            RentalOrderHeader = new RentalOrderHeader(),
             ListOfRentalCart = await _context.RentalCarts
                 .Where(c => c.ApplicationUserId == userId)
                 .Include(c => c.Product)
@@ -126,8 +126,8 @@ public class RentalCartService : IRentalCartService
         var user = await _context.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == userId);
         if (user != null)
         {
-            details.OrderHeader.ApplicationUser = user;
-            details.OrderHeader.Phone = user.PhoneNumber;
+            details.RentalOrderHeader.ApplicationUser = user;
+            details.RentalOrderHeader.Phone = user.PhoneNumber;
         }
 
         if (details.ListOfRentalCart != null)
@@ -136,14 +136,14 @@ public class RentalCartService : IRentalCartService
             {
                 if (cart.Product != null)
                 {
-                    details.OrderHeader.OrderTotal += (double)(cart.TotalPrice * cart.Count);
+                    details.RentalOrderHeader.OrderTotal += (cart.Product.RentalPrice*cart.RentalDuration * cart.Count);
                 }
             }
         }
 
-        detailsList.Add(details); 
 
-        return detailsList; 
+
+        return details; 
     }
 
 

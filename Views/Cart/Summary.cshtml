@@ -1,9 +1,8 @@
 ﻿@model Thrift_Us.ViewModel.CartOrderViewModel
-@using Thrift_Us.ViewModel
-@using Thrift_Us.Models
+
 
 @{
-    ViewData["Title"] = "Payment Summary";
+    ViewData["Title"] = " Summary";
 }
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -95,7 +94,7 @@
                                         <p class="text-end fw-bold">Total Amount: <span id="orderTotal">@Model.OrderHeader.OrderTotal</span></p>
                                     </div>
                                     <div class="col-md-8">
-                                        <button asp-action="SaveOrder" asp-controller="Order" id="Pay-with-delivery" class="btn w-100">
+                                        <button asp-action="SaveOrder" asp-controller="Order" id="Pay-with-delivery" class="btn w-100">Cash with delivery
                                             <img src="~/Image/cash.png" alt="Khalti" style="max-height: 50px; margin-right: 10px;"> 
                                         </button>
                                     </div>

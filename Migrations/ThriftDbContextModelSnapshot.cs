@@ -306,9 +306,6 @@ namespace Thrift_Us.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("RentalPrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrderHeaderId");
@@ -351,8 +348,8 @@ namespace Thrift_Us.Migrations
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
 
-                    b.Property<double>("OrderTotal")
-                        .HasColumnType("float");
+                    b.Property<decimal>("OrderTotal")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
@@ -364,9 +361,6 @@ namespace Thrift_Us.Migrations
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RentalId")
-                        .HasColumnType("int");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -382,8 +376,6 @@ namespace Thrift_Us.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("RentalId");
 
                     b.ToTable("OrderHeaders");
                 });
@@ -459,19 +451,10 @@ namespace Thrift_Us.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("RentalDuration")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
@@ -517,6 +500,111 @@ namespace Thrift_Us.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("RentalCarts");
+                });
+
+            modelBuilder.Entity("Thrift_Us.Models.RentalOrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RentalOrderHeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("RentalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RentalOrderHeaderId");
+
+                    b.ToTable("RentalOrderDetails");
+                });
+
+            modelBuilder.Entity("Thrift_Us.Models.RentalOrderHeader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OrderTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RentalDuration")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("RentalOrderHeaders");
                 });
 
             modelBuilder.Entity("Thrift_Us.ViewModels.RentalViewModel", b =>
@@ -567,6 +655,9 @@ namespace Thrift_Us.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -697,15 +788,7 @@ namespace Thrift_Us.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Thrift_Us.Models.Rental", "Rental")
-                        .WithMany()
-                        .HasForeignKey("RentalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("Rental");
                 });
 
             modelBuilder.Entity("Thrift_Us.Models.Product", b =>
@@ -765,6 +848,36 @@ namespace Thrift_Us.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Thrift_Us.Models.RentalOrderDetails", b =>
+                {
+                    b.HasOne("Thrift_Us.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Thrift_Us.Models.RentalOrderHeader", "RentalOrderHeader")
+                        .WithMany("RentalOrderDetails")
+                        .HasForeignKey("RentalOrderHeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("RentalOrderHeader");
+                });
+
+            modelBuilder.Entity("Thrift_Us.Models.RentalOrderHeader", b =>
+                {
+                    b.HasOne("Thrift_Us.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("Thrift_Us.ViewModels.RentalViewModel", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ApplicationUser")
@@ -787,6 +900,11 @@ namespace Thrift_Us.Migrations
             modelBuilder.Entity("Thrift_Us.Models.OrderHeader", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("Thrift_Us.Models.RentalOrderHeader", b =>
+                {
+                    b.Navigation("RentalOrderDetails");
                 });
 #pragma warning restore 612, 618
         }

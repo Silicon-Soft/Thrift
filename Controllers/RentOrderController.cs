@@ -36,16 +36,34 @@ public class RentalOrderController : Controller
             return RedirectToAction("Index");
         }
 
-        return View(cartOrderViewModel);
+        return View("Error");
     }
 
 
     [HttpPost]
 
-    public async Task<IActionResult> UpdateOrderStatus(int orderId, PaymentStatus paymentStatus, OrderStatus orderStatus)
+    public async Task<IActionResult> UpdateOrderStatus(int orderId, Payment_Status paymentStatus, Order_Status orderStatus)
     {
         bool success = await _orderService.UpdateOrderStatusAsync(orderId, paymentStatus, orderStatus);
         return RedirectToAction("Index");
+    }
+ 
+    public async Task<IActionResult> DeleteOrder(int id)
+    {
+
+        bool success = await _orderService.DeleteOrderAsync(id);
+
+
+        if (success)
+        {
+           
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            
+            return View("Error");
+        }
     }
 
 

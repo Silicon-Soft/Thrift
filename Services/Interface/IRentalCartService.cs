@@ -9,7 +9,7 @@ namespace Thrift_Us.Services.Interface
         Task IncreaseItemCountAsync(int cartItemId);
         Task DecreaseItemCountAsync(int cartItemId, string userId);
         Task DeleteCartItemAsync(int cartItemId, string userId);
-        Task<List<CartOrderViewModel>> GetCartSummaryListAsync(string userId);
+        Task<CartOrderViewModel>GetCartSummaryListAsync(string userId);
 
     }
 }

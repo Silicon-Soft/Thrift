@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     ViewData["Title"] = "Home Page";
 }
 ﻿
@@ -17,7 +17,7 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <title>@ViewData["Title"] - Thrift_Us</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Thrift_Us.styles.css" asp-append-version="true" />
@@ -68,7 +68,7 @@
             border: 1px solid #dee2e6;
             border-radius: 0.25rem;
             transition: box-shadow 0.3s ease;
-            background-color:papayawhip;
+            background-color: papayawhip;
         }
 
             .card:hover {
@@ -88,19 +88,19 @@
             color: #495057;
         }
 
-        .col-lg-4 col-md-4 col-sm-12 mb-4{
-            width:250px;
+        .col-lg-4 col-md-4 col-sm-12 mb-4 {
+            width: 250px;
         }
 
-        .card h-100{
-            width:200px;
+        .card h-100 {
+            width: 200px;
         }
 
-        .card-img-top
-        {
+        .card-img-top {
             display: flex;
             justify-content: center;
         }
+
         .btn-primary {
             background-color: black;
             border-color: lightpink;
@@ -228,11 +228,9 @@
                     <img src="Image/hello5.jpeg" class="d-block w-100" alt="Image 2">
                 </div>
                 <div class="carousel-item">
-                    <img src="Image/helo13.webp" class="d-block w-100" alt="Image 3">
+                    <img src="Image/hello6.jpg" class="d-block w-100" alt="Image 3">
                 </div>
-                <div class="carousel-item">
-                    <img src="Image/hello14.jpg" class="d-block w-100" alt="Image 3">
-                </div>
+
             </div>
             <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -250,27 +248,34 @@
         <div class="row">
             @foreach (var item in Model.Take(3))
             {
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
                     <div class="card h-100">
-                        <img src="/Content/Image/@item.ImageUrl" class="card-img-top" alt="Product Image" style="height:220px;">
+                        <div class="card-img-top">
+                            <img src="/Content/Image/@item.ImageUrl" alt="Product Image" style="height:220px;">
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">@item.ProductName</h5>
-                            <p class="card-text">@item.Description</p>
-                            <p class="card-text">Price: @item.Price</p>
-                            <p class="card-text">Size: @item.Size</p>
+                            <span><b>@Html.DisplayFor(modelItem => item.ProductName)</b></span>
+                            <span>@Html.DisplayFor(modelItem => item.Description)</span>
+                            <br>
+                            <span>@Html.DisplayFor(modelItem => item.Price)</span>
+                            <br>
+                            <span>@Html.DisplayFor(modelItem => item.Size)</span>
+                            <br>
                         </div>
                         <div class="card-footer">
-                            <div class="btn-group" role="group">
-                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-success rounded">Add To Cart</a>
-                                <a asp-action="Rent" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-success rounded">Rent</a>
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-warning mx-1 rounded">Details</a>
                             </div>
+                              <div class="btn-group">
+                                <a asp-action="Rent" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-danger mx-1 rounded">Rent</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
-
 
 
 
@@ -349,10 +354,3 @@
 </footer>
 
 </html>
-
-
-
-
-
-
-

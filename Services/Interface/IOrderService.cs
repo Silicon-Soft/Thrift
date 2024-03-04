@@ -7,5 +7,6 @@ public interface IOrderService
     Task<OrderDetailsViewModel> GetOrderDetailsAsync(int orderId);
     Task<bool> SaveOrderAsync(CartOrderViewModel cartOrderViewModel, string userId);
     Task<bool> UpdateOrderStatusAsync(int orderId, PaymentStatus paymentStatus, OrderStatus orderStatus);
+    Task<bool> DeleteOrderAsync(int orderId);
 
 }

@@ -26,60 +26,51 @@ public class RentalOrderService : IRentalOrderService
 
     }
 
-    public async Task<IEnumerable<OrderHeader>> GetOrdersAsync(string userId, string status)
+    public async Task<IEnumerable<RentalOrderHeader>> GetOrdersAsync(string userId, string status)
     {
-        IQueryable<OrderHeader> orders = _context.OrderHeaders.AsQueryable();
-
         var user = await _usermanager.FindByIdAsync(userId);
         var roles = await _usermanager.GetRolesAsync(user);
 
+        IQueryable<RentalOrderHeader> orders = _context.RentalOrderHeaders.Include(x => x.ApplicationUser);
+
         if (roles.Contains("Admin"))
         {
-
-            orders = _context.OrderHeaders.AsQueryable();
-
+            orders = _context.RentalOrderHeaders.AsQueryable();
         }
         else if (roles.Contains("Seller"))
         {
-
-            orders = orders.Where(orderHeader =>
-                orderHeader.OrderDetails.Any(orderDetail =>
-                    orderDetail.Product.ApplicationUserId == userId));
+            orders = orders.Where(order =>
+                order.RentalOrderDetails.Any(detail =>
+                    detail.Product.ApplicationUserId == userId));
         }
         else if (roles.Contains("Buyer"))
         {
-
-            orders = orders.Where(x => x.ApplicationUserId == userId);
+            orders = orders.Where(order => order.ApplicationUserId == userId);
         }
 
-
-
-        return await orders.Include(x => x.ApplicationUser).ToListAsync();
+        return await orders.ToListAsync();
     }
-
-
-
 
     public async Task<OrderDetailsViewModel> GetOrderDetailsAsync(int orderId)
     {
-        var orderHeader = await _context.OrderHeaders
+        var RentalorderHeader = await _context.RentalOrderHeaders
             .Include(o => o.ApplicationUser)
             .FirstOrDefaultAsync(o => o.Id == orderId);
 
-        if (orderHeader == null)
+        if (RentalorderHeader == null)
         {
             return null;
         }
 
-        var orderDetails = await _context.OrderDetails
+        var RentalorderDetails = await _context.RentalOrderDetails
             .Include(o => o.Product)
-            .Where(o => o.OrderHeaderId == orderId)
+            .Where(o => o.RentalOrderHeaderId == orderId)
             .ToListAsync();
 
         return new OrderDetailsViewModel
         {
-            OrderHeader = orderHeader,
-            OrderDetails = orderDetails
+            RentalOrderHeader = RentalorderHeader,
+            RentalOrderDetails = RentalorderDetails
         };
     }
 
@@ -89,42 +80,44 @@ public class RentalOrderService : IRentalOrderService
         using var transaction = _context.Database.BeginTransaction();
         try
         {
-            double orderTotal = cartorderviewmodel.ListOfRentalCart.Sum(item => item.Count * item.Product.Price);
-            var orderHeader = new OrderHeader
+            decimal orderTotal = cartorderviewmodel.ListOfRentalCart.Sum(item => item.Product.RentalPrice*item.Count * item.RentalDuration);
+
+            var RentalorderHeader = new RentalOrderHeader
             {
                 ApplicationUserId = userId,
-                Name = cartorderviewmodel.OrderHeader.Name,
-                Phone = cartorderviewmodel.OrderHeader.Phone,
-                Address = cartorderviewmodel.OrderHeader.Address,
-                City=cartorderviewmodel.OrderHeader.City,
-                State =cartorderviewmodel.OrderHeader.State,
-                PostalCode=cartorderviewmodel.OrderHeader.PostalCode,
-                DateofPick = cartorderviewmodel.OrderHeader.DateofPick,
-                TimeofPick = cartorderviewmodel.OrderHeader.TimeofPick,
-                OrderDate=cartorderviewmodel.OrderHeader.OrderDate,
+                Name = cartorderviewmodel.RentalOrderHeader.Name,
+                Phone = cartorderviewmodel.RentalOrderHeader.Phone,
+                Address = cartorderviewmodel.RentalOrderHeader.Address,
+                City=cartorderviewmodel.RentalOrderHeader.City,
+                State =cartorderviewmodel.RentalOrderHeader.State,
+                PostalCode=cartorderviewmodel.RentalOrderHeader.PostalCode,
+                StartDate = cartorderviewmodel.RentalOrderHeader.StartDate,
+                EndDate = cartorderviewmodel.RentalOrderHeader.EndDate,
+                RentalDuration = cartorderviewmodel.RentalOrderHeader.RentalDuration,
+                OrderDate=cartorderviewmodel.RentalOrderHeader.OrderDate,
                 OrderTotal = orderTotal,
-                OrderStatus = cartorderviewmodel.OrderHeader.OrderStatus,
-                PaymentStatus = cartorderviewmodel.OrderHeader.PaymentStatus,
+                OrderStatus = cartorderviewmodel.RentalOrderHeader.OrderStatus,
+                PaymentStatus = cartorderviewmodel.RentalOrderHeader.PaymentStatus,
                 TransId=GenerateTransactionId()
             };
 
-            _context.OrderHeaders.Add(orderHeader);
+            _context.RentalOrderHeaders.Add(RentalorderHeader);
             await _context.SaveChangesAsync();
             if (cartorderviewmodel.ListOfRentalCart != null && cartorderviewmodel.ListOfRentalCart.Any())
             {
-                foreach (var cartItem in cartorderviewmodel.ListOfCart)
+                foreach (var cartItem in cartorderviewmodel.ListOfRentalCart)
                 {
-                    var orderDetail = new OrderDetails
+                    var RentalorderDetail = new RentalOrderDetails
                     {
-                        OrderHeaderId = orderHeader.Id,
+                        RentalOrderHeaderId = RentalorderHeader.Id,
                         ProductId = cartItem.ProductId,
                         Count = cartItem.Count,
                         Description = "Good",
                         Name=cartItem.Product.ProductName,
-                        Price = cartItem.Product.Price
+                        RentalPrice = cartItem.Product.RentalPrice
                     };
 
-                    _context.OrderDetails.Add(orderDetail);
+                    _context.RentalOrderDetails.Add(RentalorderDetail);
                     await _context.SaveChangesAsync();
 
                     var cart = await _context.RentalCarts.FirstOrDefaultAsync(x => x.Id == cartItem.Id);
@@ -153,9 +146,9 @@ public class RentalOrderService : IRentalOrderService
         return Guid.NewGuid().ToString();
     }
 
-    public async Task<bool> UpdateOrderStatusAsync(int orderId, PaymentStatus paymentStatus, OrderStatus orderStatus)
+    public async Task<bool> UpdateOrderStatusAsync(int orderId, Payment_Status paymentStatus, Order_Status orderStatus)
     {
-        var order = await _context.OrderHeaders.FindAsync(orderId);
+        var order = await _context.RentalOrderHeaders.FindAsync(orderId);
         if (order != null)
         {
             order.OrderStatus = orderStatus;
@@ -168,5 +161,29 @@ public class RentalOrderService : IRentalOrderService
     }
 
 
+    public async Task<bool> DeleteOrderAsync(int orderId)
+    {
+        try
+        {
+
+            var order = await _context.RentalOrderHeaders.FindAsync(orderId);
+
+            if (order == null)
+                return false;
+
+
+            _context.RentalOrderHeaders.Remove(order);
+
+            await _context.SaveChangesAsync();
+
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting order: {ex.Message}");
+            return false;
+        }
+    }
 
 }

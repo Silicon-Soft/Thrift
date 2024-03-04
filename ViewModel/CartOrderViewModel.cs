@@ -10,16 +10,14 @@ namespace Thrift_Us.ViewModel
         public List<Cart> ListOfCart { get; set; }
 
         public OrderHeader OrderHeader { get; set; }
+        public RentalOrderHeader RentalOrderHeader { get; set; }
 
         public List<RentalCart> ListOfRentalCart { get; set; }
-        public int RentalId { get; set; }
-        public Rental Rental { get; set; }
+
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        public string ProductName { get; set; }
-        public string RentalDuration { get; set; }
-        public decimal TotalPrice { get; set; }
-
-
+        public Rental Rental { get; set; }
+       
     }
+
 }

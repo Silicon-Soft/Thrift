@@ -30,8 +30,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto ">
-
-                
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Product">Product</a>
+                </li>
                 @if (SignInManager.IsSignedIn(User))
                 {
                     var user = await UserManager.GetUserAsync(User);
@@ -58,28 +62,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Product">Product</a>
+                        </li>
                     }
                     @if (roles.Contains("Buyer"))
                     {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                       
+
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">   @await Component.InvokeAsync("Cart") Cart</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="RentalCart" asp-action="Index">   @await Component.InvokeAsync("RentalCart") RentalCart</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Product">Product</a>
-                        </li>
-                           <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" asp-controller="Order" asp-action="Index" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Orders
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="RentalOrder" asp-action="Index">Rental Order</a>
+                            </div>
                         </li>
                     }
-
+                  
                    
                 }
 

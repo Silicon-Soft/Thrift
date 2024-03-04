@@ -113,7 +113,7 @@ public class CartService : ICartService
     {
         var details = new CartOrderViewModel
         {
-            OrderHeader = new OrderHeader(),
+            OrderHeader = new OrderHeader(),  
             ListOfCart = await _context.Carts
                 .Where(c => c.ApplicationUserId == userId)
                 .Include(c => c.Product)

@@ -15,21 +15,13 @@ namespace Thrift_Us.Models
         [Required]
         public string ApplicationUserId { get; set; }
 
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime StartDate { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime EndDate { get; set; }
-
-        [Required]
+       
         public int RentalDuration { get; set; }
 
         public int Count { get; set; }
-        [Required]
-        public RentalStatus Status { get; set; }
-
+      
         public decimal TotalPrice { get; set; } 
   
         public Product Product { get; set; }

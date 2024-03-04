@@ -34,7 +34,7 @@ namespace Thrift_Us
             _=builder.Services.AddScoped<ICartService, CartService>();
             _=builder.Services.AddScoped<IRentalCartService, RentalCartService>();
             _=builder.Services.AddScoped<IOrderService, OrderService>();
-
+            _=builder.Services.AddScoped<IRentalOrderService, RentalOrderService>();
 
 
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

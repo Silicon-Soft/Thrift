@@ -142,12 +142,15 @@
                             <br>
                             <span>@Html.DisplayFor(modelItem => item.Size)</span>
                             <br>
+                            <span>@Html.DisplayFor(modelItem => item.RentalPrice)</span>
+                            <br>
                         </div>
                         <div class="card-footer">
                             <div class="btn-group">
                   
                                 <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-success mx-1 rounded">Details</a>
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -166,14 +166,14 @@ namespace Thrift_Us.Controllers
                     _logger.LogWarning($"Product with ID {model.ProductId} not found.");
                     return NotFound();
                 }
-            decimal totalPrice = product.RentalPrice * model.RentalDuration;
+            decimal rentalPrice = product.RentalPrice;
+            decimal totalPrice = rentalPrice * model.RentalDuration;
+
 
             var rental = new Rental
                 {
                     ProductId = model.ProductId,
                     ApplicationUserId = userId,
-                    StartDate = model.StartDate,
-                    EndDate = model.EndDate,
                     TotalPrice = totalPrice,
                     RentalDuration = model.RentalDuration
                 };
@@ -181,22 +181,23 @@ namespace Thrift_Us.Controllers
                 _context.Rentals.Add(rental);
                 await _context.SaveChangesAsync();
 
-            
-              
-
+      
                 var rentalCartItem = new RentalCart
                 {
                     ApplicationUserId = userId,
-                    ProductId= model.ProductId,
+                    ProductId = model.ProductId,
+                    RentalDuration = model.RentalDuration,
                     Count = model.Count
                 };
 
-                _context.RentalCarts.Add(rentalCartItem);
-                await _context.SaveChangesAsync();
+                _context.RentalCarts.Add(rentalCartItem); 
+        
+            await _context.SaveChangesAsync();
 
-                var rentalCartCount = _context.RentalCarts.Count(c => c.ApplicationUserId == userId);
-                HttpContext.Session.SetInt32("SessionRental", rentalCartCount);
-            ViewBag.TotalPrice = totalPrice;
+
+            var RentalcartCount = _context.RentalCarts.Where(x => x.ApplicationUserId == userId).ToList().Count();
+            HttpContext.Session.SetInt32("SessionRental", RentalcartCount);
+         
             return RedirectToAction("Rent");
             
           

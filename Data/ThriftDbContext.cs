@@ -22,6 +22,8 @@ namespace Thrift_Us.Data
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Rental>Rentals { get; set; }
         public DbSet<RentalCart> RentalCarts { get; set; }
+        public DbSet<RentalOrderHeader> RentalOrderHeaders { get; set; }
+        public DbSet<RentalOrderDetails> RentalOrderDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,14 +51,23 @@ namespace Thrift_Us.Data
             modelBuilder.Entity<RentalCart>()
                 .Property(r => r.TotalPrice)
                 .HasColumnType("decimal(18, 2)");
-            modelBuilder.Entity<OrderDetails>()
-       .Property(o => o.RentalPrice)
-       .HasColumnType("decimal(18, 2)");
+            modelBuilder.Entity<RentalOrderDetails>()
+           .Property(d => d.RentalPrice)
+           .HasColumnType("decimal(18, 2)");
+
             modelBuilder.Entity<OrderHeader>()
-           .HasOne(o => o.Rental)
-           .WithMany()
-           .HasForeignKey(o => o.RentalId)
-           .OnDelete(DeleteBehavior.Restrict);
+        .Property(x => x.OrderTotal)
+        .HasColumnType("decimal(18, 2)"); 
+
+            modelBuilder.Entity<RentalOrderHeader>()
+                .Property(x => x.OrderTotal)
+                .HasColumnType("decimal(18, 2)");
+        
+            modelBuilder.Entity<RentalViewModel>()
+       .Property(r => r.TotalPrice)
+       .HasColumnType("decimal(18, 2)");
+
+
         }
 
 

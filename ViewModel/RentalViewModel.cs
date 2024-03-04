@@ -40,13 +40,12 @@ namespace Thrift_Us.ViewModels
         public int Count { get; set; }
         [Required]
         public int RentalDuration { get; set; }
+        public decimal TotalPrice { get; set; }
+        
+        
 
-        public decimal TotalPrice
-        {
-            get { return RentalDuration * RentalPrice; }
-        }
 
-        public  Product Product { get; set; }
+        public Product Product { get; set; }
         public IdentityUser ApplicationUser { get; set; }
     }
 

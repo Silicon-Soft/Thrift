@@ -30,11 +30,12 @@
                                         <h6>
                                             <strong>
                                                 @cart.Product.RentalPrice
+                                                    <span class="text-muted">&nbsp;x&nbsp;</span> @cart.RentalDuration
                                                 <span class="text-muted">&nbsp;x&nbsp;</span>@cart.Count
                                             </strong>
                                         </h6>
                                     </div>
-
+                                      <input type="hidden" name="rentalDuration" value="@cart.RentalDuration" />
                                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                         <a asp-action="plus" asp-route-id="@cart.Id" class="btn btn-link px-2">
                                             <i class="fas fa-plus-circle fa-lg"></i>
@@ -58,7 +59,7 @@
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between bg-light">
                                 <span class="text-info"> Total</span>
-                                <strong class="text-info">@Model.OrderHeader.OrderTotal</strong>
+                                <strong class="text-info">@Model.RentalOrderHeader.OrderTotal</strong>
                             </li>
                         </ul>
                     </div>
