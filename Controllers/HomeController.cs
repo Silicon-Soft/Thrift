@@ -8,6 +8,7 @@ using Thrift_Us.Data;
 using Thrift_Us.Models;
 using Thrift_Us.Services.Interface;
 using Thrift_Us.ViewModel;
+using Thrift_Us.ViewModel.Product;
 using Thrift_Us.ViewModels;
 
 namespace Thrift_Us.Controllers
@@ -17,19 +18,68 @@ namespace Thrift_Us.Controllers
         private readonly ThriftDbContext _context;
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly IRecommendationService _recommendationService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService,ThriftDbContext context)
+        public HomeController(ILogger<HomeController> logger, IProductService productService,ThriftDbContext context, IRecommendationService recommendationService)
         {
             _logger = logger;
             _productService=productService;
             _context = context;
+            _recommendationService = recommendationService;
         }
 
         public IActionResult Index()
         {
-            var products = _productService.GetAllProducts().OrderByDescending(Product =>Product.ProductId); 
-            return View(products);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var products = _productService.GetAllProducts()
+                .OrderByDescending(Product => Product.ProductId)
+                .Select(product => new ProductIndexViewModel
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    Price = product.Price,
+                    RentalPrice = product.RentalPrice,
+                    Size = product.Size,
+                    Quantity = product.Quantity,
+                    ImageUrl = product.ImageUrl,
+
+                    Condition = product.Condition,
+                    CategoryId = product.CategoryId,
+                    Category = product.Category,
+                    PostedOn = product.PostedOn
+
+                })
+                .ToList();
+
+            var recommendedProducts = _recommendationService.GetRecommendedProducts(userId)
+                .Select(product => new ProductIndexViewModel
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    Price = product.Price,
+                    RentalPrice = product.RentalPrice,
+                    Size = product.Size,
+                    Quantity = product.Quantity,
+                    ImageUrl = product.ImageUrl,
+      
+                    Condition = product.Condition,
+                    CategoryId = product.CategoryId,
+                    Category = product.Category,
+                    PostedOn = product.PostedOn,
+                    Similarity = product.Similarity
+
+                })
+            
+                .ToList();
+
+
+            return View(recommendedProducts);
+
+
         }
+
         public IActionResult Product()
         {
             var products = _productService.GetAllProducts().OrderByDescending(Product => Product.ProductId);

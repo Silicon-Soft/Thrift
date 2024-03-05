@@ -18,12 +18,15 @@ namespace Thrift_Us.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Feature>Features { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Rental>Rentals { get; set; }
         public DbSet<RentalCart> RentalCarts { get; set; }
         public DbSet<RentalOrderHeader> RentalOrderHeaders { get; set; }
         public DbSet<RentalOrderDetails> RentalOrderDetails { get; set; }
+        public DbSet<UserInteraction> UserInteractions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

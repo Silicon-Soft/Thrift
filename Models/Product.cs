@@ -21,6 +21,7 @@ namespace Thrift_Us.Models
         [Range(0, long.MaxValue, ErrorMessage = "Price must be a non-negative number.")]
         public long Price { get; set; }
 
+
         [Required(ErrorMessage = "Rental Price is required.")]
         [Range(0, double.MaxValue, ErrorMessage = "Rental Price must be a non-negative number.")]
         public decimal RentalPrice { get; set; }
@@ -37,7 +38,7 @@ namespace Thrift_Us.Models
         public string Condition { get; set; }
 
         public string ImageUrl { get; set; }
-
+        public double Similarity { get; set; }
         [NotMapped]
         public IFormFile ImageFile { get; set; }
 
@@ -53,14 +54,18 @@ namespace Thrift_Us.Models
 
         [ForeignKey("ApplicationUserId")]
         public virtual IdentityUser ApplicationUser { get; set; }
-    }
+        public ICollection<Like> Likes { get; set; }
+        public List<Feature> Features { get; set; }
 
+    }
     public enum Size
     {
-        XL,
+        Xl,
         L,
         M,
         S,
-        XXL
+        XXl,
+
     }
+
 }

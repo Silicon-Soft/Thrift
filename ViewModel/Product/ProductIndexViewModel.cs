@@ -17,10 +17,12 @@ namespace Thrift_Us.ViewModel.Product
         public int Quantity { get; set; }
         public string ImageUrl { get; set; }
         public IFormFile ImagePath { get; set; }
-
+        public double Similarity { get; set; }
         public string Condition { get; set; }
         public int CategoryId { get; set; }
         public Thrift_Us.Models.Category Category { get; set; }
         public DateTime PostedOn { get; set; }
+        public List<ProductIndexViewModel> AllProducts { get; set; }  // Change to ProductIndexViewModel
+        public List<ProductIndexViewModel> RecommendedProducts { get; set; }  // Change to ProductIndexViewModel
     }
 }

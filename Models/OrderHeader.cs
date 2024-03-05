@@ -13,15 +13,15 @@ namespace Thrift_Us.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         [Required(ErrorMessage = "Order Date is required.")]
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Time of Pick is required.")]
         [DataType(DataType.Time)]
-        public DateTime TimeofPick { get; set; }
+        public DateTime TimeofPick { get; set; }= DateTime.Now;
 
         [Required(ErrorMessage = "Date of Pick is required.")]
         [DataType(DataType.Date)]
-        public DateTime DateofPick { get; set; }
+        public DateTime DateofPick { get; set; }=DateTime.Now;
 
         [Required(ErrorMessage = "Order Total is required.")]
         [Range(0, double.MaxValue, ErrorMessage = "Order Total must be a positive number.")]
