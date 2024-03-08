@@ -470,6 +470,9 @@ namespace Thrift_Us.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("RefundPolicyCharge")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("RentalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -505,6 +508,12 @@ namespace Thrift_Us.Migrations
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("RefundAmont")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("RefundPolicyCharge")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("RentalDuration")
                         .HasColumnType("int");
@@ -757,6 +766,10 @@ namespace Thrift_Us.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PicturePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

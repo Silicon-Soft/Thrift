@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <style>
         body {
-            background-color: floralwhite;
+            background-color: whitesmoke;
         }
 
         .navbar {
@@ -35,7 +35,7 @@
 
 
         .jumbotron {
-            background-color: linen;
+            background-color: #e2e3e5;
             color: #ffffff;
             padding: 4rem 2rem;
         }
@@ -53,7 +53,7 @@
                 }
 
         .container {
-            background-color: linen;
+            background-color: #e2e3e5;
             border: 1px solid black;
             padding: 2rem;
             border-radius: 0.25rem;
@@ -68,7 +68,7 @@
             border: 1px solid #dee2e6;
             border-radius: 0.25rem;
             transition: box-shadow 0.3s ease;
-            background-color: papayawhip;
+            background-color: #B9C2C5;
         }
 
             .card:hover {
@@ -163,7 +163,7 @@
             }
 
         footer.bg-light {
-            background-color: floralwhite !important;
+            background-color: #e2e3e5!important;
             color: #555;
             padding-top: 20px;
             padding-bottom: 20px;
@@ -267,18 +267,19 @@
                         </div>
                         <div class="card-footer">
                             <div class="btn-group">
-                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-warning mx-1 rounded">Details</a>
+                                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-warning mx-1 rounded">Add To Cart</a>
                             </div>
-                              <div class="btn-group">
+                            <div class="btn-group">
                                 <a asp-action="Rent" asp-controller="Home" asp-route-id="@item.ProductId" class="btn btn-danger mx-1 rounded">Rent</a>
                             </div>
                             <div class="btn-group">
-                            <form asp-action="Like" asp-controller="Like" method="post">
-                                <input type="hidden" name="productId" value="@item.ProductId" />
-                                <button type="submit" class="btn btn-primary mx-1 rounded">Like</button>
-                            </form>
+                                <form asp-action="Like" asp-controller="Like" method="post">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button type="submit" class="btn btn-success mx-1 rounded">Like</button>
+                                </form>
                             </div>
                         </div>
+
                     </div>
                 </div>
             }

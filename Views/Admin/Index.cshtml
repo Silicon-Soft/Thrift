@@ -17,6 +17,7 @@
                 <th>Email</th>
                 <th>Address</th>
                 <th>Role</th>
+                <th>Picture</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -33,12 +34,16 @@
                             <span >@role</span>
                         }
                     </td>
+                     <td>
+                            <img src="@item.PicturePath" alt="Profile Picture" style="height:100px;"/>
+                    </td>
                     <td>
                         <div class="btn-group" role="group">
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                         </div>
                     </td>
+                   
                 </tr>
             }
         </tbody>

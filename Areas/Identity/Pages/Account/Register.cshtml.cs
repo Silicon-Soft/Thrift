@@ -1,5 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿
 #nullable disable
 
 using System;
@@ -12,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +33,7 @@ namespace Thrift_Us.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -40,7 +41,8 @@ namespace Thrift_Us.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IWebHostEnvironment webHostEnvironment)
 
         {
             _userManager = userManager;
@@ -50,6 +52,7 @@ namespace Thrift_Us.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager=roleManager;
+            this.webHostEnvironment=webHostEnvironment;
 
         }
 
@@ -100,6 +103,9 @@ namespace Thrift_Us.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+            public string PicturePath { get; set; }
+            public IFormFile Picture { get; set; }
+
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -141,23 +147,38 @@ namespace Thrift_Us.Areas.Identity.Pages.Account
                 })
             };
         }
-    
+
 
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                user.FirstName= Input.FirstName;
-                user.LastName= Input.LastName;
-                user.PhoneNumber= Input.PhoneNumber;
-                user.Address= Input.Address;
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.PhoneNumber = Input.PhoneNumber;
+                user.Address = Input.Address;
+                if (Input.Picture != null)
+                {
+                    // Save image to the server
+                    var uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "Image");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(Input.Picture.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Input.Picture.CopyToAsync(fileStream);
+                    }
+                    // Save the file path to the user object
+                    user.PicturePath = "/Image/" + uniqueFileName;
+                }
+
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -184,9 +205,18 @@ namespace Thrift_Us.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        // Redirect based on user role
+                        if (await _userManager.IsInRoleAsync(user, "Seller"))
+                        {
+                            return RedirectToAction("Dashboards", "Seller");
+                        }
+                        else
+                        {
+                            return LocalRedirect(returnUrl);
+                        }
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -196,6 +226,7 @@ namespace Thrift_Us.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
 
         private ApplicationUser CreateUser()
         {

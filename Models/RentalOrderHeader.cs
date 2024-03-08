@@ -14,11 +14,11 @@ namespace Thrift_Us.Models
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; } = DateTime.Now;
 
         [Required]
         public int RentalDuration { get; set; }
@@ -38,7 +38,7 @@ namespace Thrift_Us.Models
         public string PostalCode { get; set; }
 
         public virtual ICollection<RentalOrderDetails> RentalOrderDetails { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }= DateTime.Now;
 
     }
 

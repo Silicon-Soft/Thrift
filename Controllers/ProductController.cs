@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Thrift_Us.Services.Interface;
 using Thrift_Us.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Thrift_Us.Controllers
 {
@@ -19,12 +20,15 @@ namespace Thrift_Us.Controllers
     {
         private readonly IProductService _productService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ProductController(IProductService productService, IWebHostEnvironment webHostEnvironment)
+        public ProductController(IProductService productService, UserManager<IdentityUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _productService = productService;
             _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
         }
+
 
         public IActionResult Index()
         {

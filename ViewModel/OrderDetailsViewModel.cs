@@ -10,7 +10,9 @@ namespace Thrift_Us.ViewModel
         public ApplicationUser ApplicationUser { get; set; }
         public RentalOrderHeader RentalOrderHeader { get; set; }
         public IEnumerable<RentalOrderDetails> RentalOrderDetails { get; set; }
+        public int RentalId { get; set; }
         public Rental Rental { get; set; }
+        public int RentalDuration { get; set; }
 
     }
 }

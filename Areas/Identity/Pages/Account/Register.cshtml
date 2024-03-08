@@ -27,7 +27,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="needs-validation" novalidate>
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                     <h2>Create a new account.</h2>
                     <hr />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -60,6 +60,11 @@
                         <label asp-for="Input.Email" class="form-label"></label>
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Picture" class="form-label"></label>
+                        <input asp-for="Input.Picture" class="form-control"type="file" autocomplete="Upload" aria-required="true" />
+                        <span asp-validation-for="Input.Picture" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">

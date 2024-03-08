@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 using Thrift_Us.Models;
 
 
@@ -22,7 +23,9 @@ namespace Thrift_Us.ViewModel.Product
         public int CategoryId { get; set; }
         public Thrift_Us.Models.Category Category { get; set; }
         public DateTime PostedOn { get; set; }
-        public List<ProductIndexViewModel> AllProducts { get; set; }  // Change to ProductIndexViewModel
-        public List<ProductIndexViewModel> RecommendedProducts { get; set; }  // Change to ProductIndexViewModel
+        public string ApplicationUserId { get; set; }
+        public virtual IdentityUser ApplicationUser { get; set; }
+        public List<ProductIndexViewModel> AllProducts { get; set; }  
+        public List<ProductIndexViewModel> RecommendedProducts { get; set; }  
     }
 }
