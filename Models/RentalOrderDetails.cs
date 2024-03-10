@@ -1,4 +1,6 @@
-﻿namespace Thrift_Us.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Thrift_Us.Models
 {
     public class RentalOrderDetails
     {
@@ -11,6 +13,9 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal RentalPrice { get; set; }
+        public decimal Price { get; set; }
+        public decimal RefundAmount { get; set; }
+
 
 
     }

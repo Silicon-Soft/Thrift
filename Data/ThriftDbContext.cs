@@ -36,7 +36,7 @@ namespace Thrift_Us.Data
                 .HasOne(p => p.ApplicationUser)
                 .WithMany()
                 .HasForeignKey(p => p.ApplicationUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Rental>()
       .Property(r => r.TotalPrice)
@@ -69,7 +69,27 @@ namespace Thrift_Us.Data
             modelBuilder.Entity<RentalViewModel>()
        .Property(r => r.TotalPrice)
        .HasColumnType("decimal(18, 2)");
+            modelBuilder.Entity<Rental>()
+       .Property(r => r.RefundAmount)
+       .HasColumnType("decimal(18, 2)");
 
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18, 2)");
+            modelBuilder.Entity<RentalCart>()
+       .Property(rc => rc.RefundAmount)
+       .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<RentalViewModel>()
+                .Property(rv => rv.Price)
+                .HasColumnType("decimal(18, 2)");
+            modelBuilder.Entity<RentalOrderDetails>()
+       .Property(d => d.Price)
+       .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<RentalOrderDetails>()
+                .Property(d => d.RefundAmount)
+                .HasColumnType("decimal(18,2)");
 
         }
 

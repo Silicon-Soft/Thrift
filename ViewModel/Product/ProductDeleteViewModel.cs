@@ -13,6 +13,7 @@ namespace Thrift_Us.ViewModel.Product
         public long Price { get; set; }
     
         public decimal RentalPrice { get; set; }
+
         public string ImageUrl { get; set; }
 
       

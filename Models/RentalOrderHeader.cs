@@ -51,6 +51,7 @@ namespace Thrift_Us.Models
     public enum Order_Status
     {
         Inprocess,
-        Shipped
+        Shipped,
+        Recieved
     }
 }

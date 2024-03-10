@@ -127,7 +127,6 @@ namespace Thrift_Us.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var result = await _userManager.DeleteAsync(user);
 
             if (result.Succeeded)

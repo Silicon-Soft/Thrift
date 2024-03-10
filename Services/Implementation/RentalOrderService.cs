@@ -53,26 +53,40 @@ public class RentalOrderService : IRentalOrderService
 
     public async Task<OrderDetailsViewModel> GetOrderDetailsAsync(int orderId)
     {
-        var RentalorderHeader = await _context.RentalOrderHeaders
+        var rentalOrderHeader = await _context.RentalOrderHeaders
             .Include(o => o.ApplicationUser)
             .FirstOrDefaultAsync(o => o.Id == orderId);
 
-        if (RentalorderHeader == null)
+        if (rentalOrderHeader == null)
         {
             return null;
         }
 
-        var RentalorderDetails = await _context.RentalOrderDetails
+        var rentalOrderDetails = await _context.RentalOrderDetails
             .Include(o => o.Product)
             .Where(o => o.RentalOrderHeaderId == orderId)
             .ToListAsync();
 
+        // Calculate refund amount based on payment status
+        foreach (var cart in rentalOrderDetails)
+        {
+            if (rentalOrderHeader.PaymentStatus == Payment_Status.Recieved)
+            {
+              
+            }
+            else
+            {
+                cart.RefundAmount = (cart.Product.Price * cart.RentalOrderHeader.RentalDuration * cart.Count) - (cart.Product.RentalPrice * cart.RentalOrderHeader.RentalDuration * cart.Count);
+            }
+        }
+
         return new OrderDetailsViewModel
         {
-            RentalOrderHeader = RentalorderHeader,
-            RentalOrderDetails = RentalorderDetails
+            RentalOrderHeader = rentalOrderHeader,
+            RentalOrderDetails = rentalOrderDetails
         };
     }
+
 
     public async Task<bool> SaveOrderAsync(CartOrderViewModel cartorderviewmodel, string userId)
     {
@@ -80,7 +94,7 @@ public class RentalOrderService : IRentalOrderService
         using var transaction = _context.Database.BeginTransaction();
         try
         {
-            decimal orderTotal = cartorderviewmodel.ListOfRentalCart.Sum(item => item.Product.RentalPrice*item.Count * item.RentalDuration);
+            decimal orderTotal = cartorderviewmodel.ListOfRentalCart.Sum(item => item.Product.Price* item.Count * item.RentalDuration);
 
             var RentalorderHeader = new RentalOrderHeader
             {
@@ -114,6 +128,7 @@ public class RentalOrderService : IRentalOrderService
                         Count = cartItem.Count,
                         Description = "Good",
                         Name=cartItem.Product.ProductName,
+                        Price=cartItem.Product.Price,
                         RentalPrice = cartItem.Product.RentalPrice
                     };
 

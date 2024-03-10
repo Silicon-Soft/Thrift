@@ -181,6 +181,7 @@ namespace Thrift_Us.Controllers
                     ProductId = product.ProductId,
                     ProductName = product.ProductName,
                     Description = product.Description,
+                    Price=product.Price,
                     RentalPrice = product.RentalPrice,
                     Size = product.Size,
                     ImageUrl = product.ImageUrl,
@@ -230,18 +231,30 @@ namespace Thrift_Us.Controllers
 
                 _context.Rentals.Add(rental);
                 await _context.SaveChangesAsync();
+            var existingCartItem = await _context.RentalCarts
+        .FirstOrDefaultAsync(x => x.ApplicationUserId == userId && x.ProductId == model.ProductId);
 
-      
+            if (existingCartItem != null)
+            {
+           
+                existingCartItem.Count += 1;
+            }
+            else
+            {
+                
                 var rentalCartItem = new RentalCart
                 {
                     ApplicationUserId = userId,
                     ProductId = model.ProductId,
                     RentalDuration = model.RentalDuration,
-                    Count = model.Count
+                    Count = 1 
                 };
 
-                _context.RentalCarts.Add(rentalCartItem); 
-        
+                _context.RentalCarts.Add(rentalCartItem);
+            }
+
+
+          
             await _context.SaveChangesAsync();
 
 

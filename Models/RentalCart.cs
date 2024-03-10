@@ -15,7 +15,7 @@ namespace Thrift_Us.Models
 
         public int Count { get; set; }
 
-      
+      public decimal RefundAmount { get; set; } 
         public decimal TotalPrice { get; set; }
 
        

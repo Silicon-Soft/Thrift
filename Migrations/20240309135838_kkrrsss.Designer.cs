@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Thrift_Us.Data;
 
@@ -11,9 +12,10 @@ using Thrift_Us.Data;
 namespace Thrift_Us.Migrations
 {
     [DbContext(typeof(ThriftDbContext))]
-    partial class ThriftDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240309135838_kkrrsss")]
+    partial class kkrrsss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -915,7 +917,7 @@ namespace Thrift_Us.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Thrift_Us.Models.Category", "Category")

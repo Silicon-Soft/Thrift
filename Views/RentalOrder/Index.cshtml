@@ -1,17 +1,23 @@
 ﻿@model IEnumerable<Thrift_Us.Models.RentalOrderHeader>
 
+
 @{
-    string layout = "~/Views/Shared/_Layout.cshtml";
-    if (User.IsInRole("Seller"))
+    if (User.IsInRole("Buyer"))
     {
-        layout = "~/Views/Shared/_SellerLayout.cshtml";
+        Layout = "~/Views/Shared/_Layout.cshtml";
     }
-    else if (User.IsInRole("Admin"))
+    else if (User.IsInRole("Seller"))
     {
-        layout = "~/Views/Shared/_AdminLayout.cshtml";
+        Layout = "~/Views/Shared/_SellerLayout.cshtml";
+
     }
-    Layout = layout;
+    else
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
 }
+
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
@@ -33,6 +39,7 @@
                             <th>Order Total</th>
                             <th>Order Status</th>
                             <th>Payment Status</th>
+         
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -47,7 +54,9 @@
                                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
                                     <td>@Html.DisplayFor(modelItem => item.OrderTotal)</td>
                                     <td>@Html.DisplayFor(modelItem => item.OrderStatus)</td>
+
                                     <td>@Html.DisplayFor(modelItem => item.PaymentStatus)</td>
+                         
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a asp-action="OrderDetails" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Details</a>

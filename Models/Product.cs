@@ -25,7 +25,6 @@ namespace Thrift_Us.Models
         [Required(ErrorMessage = "Rental Price is required.")]
         [Range(0, double.MaxValue, ErrorMessage = "Rental Price must be a non-negative number.")]
         public decimal RentalPrice { get; set; }
-        public decimal RefundPolicyCharge { get; set; }
         [Required(ErrorMessage = "Size is required.")]
         public Size Size { get; set; }
 

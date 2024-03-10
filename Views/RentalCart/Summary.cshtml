@@ -83,27 +83,42 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        @for (int i = 0; i < Model.ListOfRentalCart.Count; i++)
-                        {
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>@Model.ListOfRentalCart[i].Product.ProductName</span>
-                                <span>QTY: @Model.ListOfRentalCart[i].Count</span>
-                                <span>@Model.ListOfRentalCart[i].RentalDuration</span>
+                        <ul class="list-group">
+                            @for (int i = 0; i < Model.ListOfRentalCart.Count; i++)
+                            {
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="form-row mb-3">
+                                            <span>Product Name: @Model.ListOfRentalCart[i].Product.ProductName</span>
+                                        </div>
+                                        <div class="form-row mb-3">
+                                            <span>Quantity: @Model.ListOfRentalCart[i].Count</span>
+                                        </div>
+                                        <div class="form-row mb-3">
+                                            <span>Rental Duration: @Model.ListOfRentalCart[i].RentalDuration</span>
+                                        </div>
+                                        <div class="form-row mb-3">
+                                            <span>Refund Amount: @Model.ListOfRentalCart[i].RefundAmount</span>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Product.ProductName" />
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Count" />
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Product.RentalPrice" />
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Product.Price" />
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].RentalDuration" />
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].RefundAmount" />
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].ProductId" />
+                                    <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Id" />
+                                </li>
+                            }
+                        </ul>
 
-
-                                <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Product.ProductName" />
-                                <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Count" />
-                                <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Product.RentalPrice" />
-                                <input type="hidden" asp-for="@Model.ListOfRentalCart[i].RentalDuration" />
-                                <input type="hidden" asp-for="@Model.ListOfRentalCart[i].ProductId" />
-                                <input type="hidden" asp-for="@Model.ListOfRentalCart[i].Id" />
-                            </li>
-                        }
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-12 mb-2">
                                         <p class="text-end fw-bold">Total Amount: <span id="orderTotal">@Model.RentalOrderHeader.OrderTotal</span></p>
+
                                     </div>
                                     <div class="col-md-8">
                                         <button asp-action="SaveOrder" asp-controller="RentalOrder" id="Pay-with-delivery" class="btn w-100">

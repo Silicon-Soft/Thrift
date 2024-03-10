@@ -23,8 +23,7 @@ namespace Thrift_Us.Models
         public int Count { get; set; }
       
         public decimal TotalPrice { get; set; } 
-        public decimal RefundPolicyCharge { get; set; }
-        public decimal RefundAmont { get; set; }
+        public decimal RefundAmount { get; set; }
   
         public Product Product { get; set; }
         public virtual IdentityUser ApplicationUser { get; set; }

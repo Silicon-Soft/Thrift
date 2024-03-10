@@ -36,6 +36,7 @@ namespace Thrift_Us.ViewModels
 
         [Required]
         public decimal RentalPrice { get; set; }
+        public decimal Price { get; set; }
 
         public int Count { get; set; }
         [Required]

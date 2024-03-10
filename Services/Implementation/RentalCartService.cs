@@ -36,7 +36,8 @@ public class RentalCartService : IRentalCartService
             {
                 if (cart.Product != null)
                 {
-                    details.RentalOrderHeader.OrderTotal += (cart.Product.RentalPrice * cart.RentalDuration * cart.Count);
+                    details.RentalOrderHeader.OrderTotal += (cart.Product.Price * cart.RentalDuration * cart.Count);
+                    cart.RefundAmount = (cart.Product.Price * cart.RentalDuration * cart.Count) - (cart.Product.RentalPrice * cart.RentalDuration * cart.Count);
                 }
                 else
                 {
@@ -136,7 +137,8 @@ public class RentalCartService : IRentalCartService
             {
                 if (cart.Product != null)
                 {
-                    details.RentalOrderHeader.OrderTotal += (cart.Product.RentalPrice*cart.RentalDuration * cart.Count);
+                    details.RentalOrderHeader.OrderTotal += (cart.Product.Price*cart.RentalDuration * cart.Count);
+                    cart.RefundAmount = (cart.Product.Price * cart.RentalDuration * cart.Count) - (cart.Product.RentalPrice * cart.RentalDuration * cart.Count);
                 }
             }
         }

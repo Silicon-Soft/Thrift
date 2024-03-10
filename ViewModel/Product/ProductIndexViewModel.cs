@@ -14,6 +14,7 @@ namespace Thrift_Us.ViewModel.Product
         public long Price { get; set; }
      
         public decimal RentalPrice { get; set; }
+
         public Size Size { get; set; }
         public int Quantity { get; set; }
         public string ImageUrl { get; set; }
